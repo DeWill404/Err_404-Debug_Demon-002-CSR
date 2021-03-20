@@ -1,36 +1,22 @@
-import { useState } from 'react';
-import firebase from "./firebase";
-import "./App.css";
+import Wrapper from "./component/Wrapper";
+import CSR from "./component/CSR";
+import User from "./component/User";
+import NotFound from "./component/notFound";
+import { useRoutes } from "hookrouter";
 
-const db = firebase.database();
+// Define map of routes in pages
+const routes = {
+  '/': () => <CSR />,
+  '/user/:id': ({id}) => <User id={id} />,
+};
 
 function App() {
-  const [email, setEmail] = useState("");
-  var [userLink, setLink] = useState("");
+  // Get current url
+  const match = useRoutes(routes);
 
   return (
-    <main>
-      <form 
-        className="form"
-        onSubmit={e => {
-          e.preventDefault();
-          const dbRef = db.ref("data");
-          const newData = dbRef.push();
-          newData.set({
-            email
-          });
-          setLink(`/data/${newData.key}`);
-        }}
-        >
-        <input
-          type="email" placeholder="Enter User email" name="email"
-          value={email} onChange={e => setEmail(e.target.value)}
-        />
-        <br></br>
-        <input type="submit"/>
-      </form>
-      <span>{userLink}</span>
-    </main>
+    // Parse URL & respond respectively
+    <Wrapper content={match || <NotFound />}></Wrapper>
   );
 }
 
