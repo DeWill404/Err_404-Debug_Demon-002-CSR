@@ -1,6 +1,7 @@
 import { useState } from "react";
+import "../App.css";
 import firebase from "../firebase";
-import "../App.css"
+import QRCode from "qrcode.react";
 
 // Get Database
 const db = firebase.database();
@@ -13,6 +14,7 @@ function CSR() {
   const [email, setEmail] = useState("");
   var [userLink, setLink] = useState("");
 
+  
 
   return (
     <main>
@@ -30,16 +32,29 @@ function CSR() {
 
           // Display link
           setLink(`${baseURL}/user/${newData.key}`);
+          document.getElementById("qrcode").style.visibility = "visible";
         }}
         >
-        <input
-          type="email" placeholder="Enter User email" name="email"
-          value={email} onChange={e => setEmail(e.target.value)}
-        />
-        <br></br>
-        <input type="submit"/>
+        <div class="mb-3">
+          <label for="emailInput" class="form-label">Email</label>
+          <input type="email" class="form-control" id="emailInput" 
+            value={email} onChange={e => setEmail(e.target.value)}
+          />
+        </div>
+        <div class="mb-3">
+          <input type="submit" class="btn btn-dark"/>
+        </div>
       </form>
       <span>{userLink}</span>
+      
+      <div id="qrcode">
+        <QRCode
+          value={userLink}
+          size={290}
+          level={"H"}
+          includeMargin={true}
+        />
+      </div>
     </main>
   );
 }

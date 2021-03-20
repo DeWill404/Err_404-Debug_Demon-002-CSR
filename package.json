@@ -9,6 +9,7 @@
     "firebase": "^8.3.1",
     "hookrouter": "^1.2.5",
     "next": "^10.0.9",
+    "qrcode.react": "^1.0.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-jsx": "^1.0.0",
