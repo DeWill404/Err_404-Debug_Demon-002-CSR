@@ -16,7 +16,7 @@ function App() {
 
   return (
     // Parse URL & respond respectively
-    <Wrapper content={match || <NotFound />}></Wrapper>
+    <Wrapper content={match || <NotFound />} />
   );
 }
 

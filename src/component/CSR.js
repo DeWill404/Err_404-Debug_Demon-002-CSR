@@ -1,14 +1,18 @@
 import { useState } from "react";
 import firebase from "../firebase";
+import "../App.css"
 
 // Get Database
 const db = firebase.database();
+// base url
+const baseURL = "http://localhost:3000";
 
 // To show representative option to start session for user
 function CSR() {
   // Get State obj for email, generated link
   const [email, setEmail] = useState("");
   var [userLink, setLink] = useState("");
+
 
   return (
     <main>
@@ -25,7 +29,7 @@ function CSR() {
           newData.set({ email });
 
           // Display link
-          setLink(`/user/${newData.key}`);
+          setLink(`${baseURL}/user/${newData.key}`);
         }}
         >
         <input
