@@ -18,6 +18,7 @@ function CSR() {
 
   return (
     <main>
+      <title>CSR Menu</title>
       <form 
         className="form"
         onSubmit={e => {
@@ -35,26 +36,25 @@ function CSR() {
           document.getElementById("qrcode").style.visibility = "visible";
         }}
         >
-        <div class="mb-3">
-          <label for="emailInput" class="form-label">Email</label>
-          <input type="email" class="form-control" id="emailInput" 
+        <div className="mb-3">
+          <label for="emailInput" className="form-label">Email</label>
+          <input type="email" className="form-control" id="emailInput" 
             value={email} onChange={e => setEmail(e.target.value)}
           />
         </div>
-        <div class="mb-3">
-          <input type="submit" class="btn btn-dark"/>
+        <div className="mb-3">
+          <input type="submit" className="btn btn-primary"/>
+        </div>
+        <a href={userLink}>{userLink}</a>
+        <div id="qrcode">
+          <QRCode
+            value={userLink}
+            size={290}
+            level={"H"}
+            includeMargin={true}
+          />
         </div>
       </form>
-      <span>{userLink}</span>
-      
-      <div id="qrcode">
-        <QRCode
-          value={userLink}
-          size={290}
-          level={"H"}
-          includeMargin={true}
-        />
-      </div>
     </main>
   );
 }
