@@ -34,6 +34,20 @@
   font-family: 'Courier New', Courier, monospace;
 }
 
+.input-group {
+  width: 90%;
+  max-width: 700px;
+  margin: auto;
+}
+
+.input-group-text {
+  cursor: pointer;
+}
+
+.form-checkbox {
+  height: 50px;
+}
+
 .form {
   margin: auto;
   text-align: center;

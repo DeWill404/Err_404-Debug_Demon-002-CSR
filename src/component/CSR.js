@@ -18,7 +18,7 @@ function CSR() {
 
   return (
     <main>
-      <title>CSR Menu</title>
+      <title>Home</title>
       <form 
         className="form"
         onSubmit={e => {
@@ -45,7 +45,7 @@ function CSR() {
         <div className="mb-3">
           <input type="submit" className="btn btn-primary"/>
         </div>
-        <a href={userLink}>{userLink}</a>
+        <a href={userLink} target="_blank">{userLink}</a>
         <div id="qrcode">
           <QRCode
             value={userLink}
@@ -54,6 +54,7 @@ function CSR() {
             includeMargin={true}
           />
         </div>
+        <a href={`${userLink.replace("user", "admin")}`} target="_blank">Admin</a>
       </form>
     </main>
   );
