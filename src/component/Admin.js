@@ -29,7 +29,6 @@ function Admin({id}) {
 	// If no data is loaded
 	if (data === "")
 		return <main><div id="loading"><h1>Loading...</h1></div></main>;
-  }
 	
 	// If invaid link is entered
 	else if (!data)
