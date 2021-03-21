@@ -29,7 +29,7 @@ function CSR() {
           const newData = dbRef.push();
 
           // Send user detail
-          newData.set({ email });
+          newData.set({ "email":[email, false] });
 
           // Display link
           setLink(`${baseURL}/user/${newData.key}`);

@@ -6,34 +6,39 @@ import { useEffect, useState } from "react";
 // Get database
 const db = firebase.database();
 
-
 function iteraDate(id, path, key, obj, visible) {
+  if (Array.isArray(obj) && visible.includes(key)) {
+    // Print out the input tag
+    return (
+      <div key={key} className="col-3 input-effect">
+        <label className="inputLabel">{(path ? `${path} ➡ ${key}` : key).replace("/", " ➡ ")}</label>
+        <br />
+        <input value={obj[0]}
+          className="inputTag has-content" type="text" placeholder="" 
+          onChange={e =>
+            // Update DB
+            db.ref(`data/${id}/${path}/${key}`).set( [e.target.value, false] )
+          }
+        />
+        <input 
+          className="form-check-input" type="checkbox" checked={obj[1]} 
+          onClick={e =>
+            // Update only checkbox in db 
+            db.ref(`data/${id}/${path}/${key}`).update( {1:e.target.checked} )
+          }
+        />
+      </div>
+    );
+  }
+  
 	// Iterate throught map insde the mat to lowest point
 	if (typeof(obj) == 'object') {
 		return ( Object.keys(obj).map(function(keyName, keyIndex) {
 			return ( <div key={keyName}>{ 
-				iteraDate(id, (key ? path?`${path} -> ${key}`:key : ''), keyName, obj[keyName], visible) 
+				iteraDate(id, (key ? path?`${path}/${key}`:key : ''), keyName, obj[keyName], visible) 
 				}</div> );
 		}) );
 	}
-
-  if (visible && visible.includes(key)) {
-    // Print out the input tag
-    return (
-      <div key={key} className="col-3 input-effect">
-        <label className="inputLabel">{path ? `${path} -> ${key}` : key}</label>
-        <br />
-        <input value={obj}
-          className="inputTag has-content" type="text" placeholder="" 
-          onChange={e =>
-            // Update DB
-            db.ref(`data/${id}/${path}`).update({[key] : e.target.value})
-          }
-        />
-        <input className="form-check-input" type="checkbox" value=""/>
-      </div>
-    );
-  }
 
   return <span></span>;
 
