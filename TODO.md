@@ -1,0 +1,12 @@
+- Disable reload in **User, Admin, CSR** page by uncommenting code in disable func in start & on callback of useEffect.
+- Add super admin page which can see onging sessions, & add & remove csr, and change max session carried out by csr.
+- Show already logged in message in CSR, User side if they try to start more session is then alloted.
+- Show online & offline status od User on CSR page if user loggedin or logged out.
+- give CSR ability to reset login of USer.
+- Add chat feature btn CSR & USER, CSR & admin, CSR & CSR, with image and video upload feature.
+- Show thank you message on ending session.
+- Add all validate/invalidate all field btn on User page.
+- Add Edit, Add label & data functionalty on CSR/Admin page.
+- Randamized the naame of key use to access session storage.
+- allow CSR to get data to current session from the save storage.
+- show err message if session is terminated by admin, or invalid login or other situaion.

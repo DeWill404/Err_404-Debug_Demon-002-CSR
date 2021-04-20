@@ -1,0 +1,14 @@
+/* Style for valid & invalid data */
+.bg-validate { background: rgb(156, 156, 237); }
+.bg-invalidate { background: rgb(255, 117, 117); }
+
+/* Bg color for field container */
+.bg-label { background: rgb(163, 161, 161); }
+.bg-label-white { background: rgb(44, 38, 38); }
+
+/* Style for names of user & csr */
+.nameStyle {
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0 20px;
+}
