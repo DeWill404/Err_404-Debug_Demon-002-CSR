@@ -1,41 +1,50 @@
 /* Card style */
 .login-card {
-    min-width: 300px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 255, 0.1);
-    font-family: monospace;
-    overflow: hidden;
-    border: 1px #aaa solid;
-    border-radius: 10px;
-    box-shadow: 0 3px 6px rgba(124, 8, 8, 0.16);
+  min-width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 255, 0.1);
+  font-family: monospace;
+  overflow: hidden;
+  border: 1px #aaa solid;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(124, 8, 8, 0.16);
 }
 
 /* Remove border radius */
-.mode-btn { border: 0; color: black;  }
-.mode-btn:nth-child(1) { border-radius: 0.3em 0 0 0.3em; }
-.mode-btn:nth-child(2) { border-radius: 0 0.3em 0.3em 0; }
+.mode-btn {
+  border: 0;
+  color: black;
+}
+.mode-btn:nth-child(1) {
+  border-radius: 0.3em 0 0 0.3em;
+}
+.mode-btn:nth-child(2) {
+  border-radius: 0 0.3em 0.3em 0;
+}
 
 /* Class to show current select mode */
-.btn-active { background: rgba(0, 0, 255, 0.3) }
+.btn-active {
+  background: rgba(0, 0, 255, 0.3);
+}
 
 /* Error text style */
 #login-err_text {
-    font-weight: bold;
-    display: block;
-    text-align: center;
-    font-size: large;
-    font-family: monospace;
-    min-width: 300px;
-    color: white;
-    background: red;
-    border-radius: 5px;
-    visibility: hidden;
-    cursor: pointer;
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%);
+  font-weight: bold;
+  display: block;
+  text-align: center;
+  font-size: large;
+  font-family: monospace;
+  min-width: 300px;
+  color: white;
+  background: red;
+  border-radius: 5px;
+  visibility: hidden;
+  cursor: pointer;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%);
 }

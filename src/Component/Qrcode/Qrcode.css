@@ -1,46 +1,48 @@
 /* Style for container in default mode */
 .qr-container-default {
-    width: max-content;
-    height: 120px;
-    border: 2px #000 solid;
-    border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    background: white;
-    cursor: pointer;
+  width: max-content;
+  height: 120px;
+  border: 2px #000 solid;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  background: white;
+  cursor: pointer;
 }
 
 /* Style for QR CODE on default mode */
-.qr-default { pointer-events: none; }
+.qr-default {
+  pointer-events: none;
+}
 
 /* Style for QR CODE container on overlay mode */
 .qr-container-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100%;
-    z-index: 2;
-    background: #000;
-    cursor: pointer;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  z-index: 2;
+  background: #000;
+  cursor: pointer;
 }
 
 /* Style for QR code in overlay mode  */
 .qr-overlay {
-    position: fixed;
-    top: calc(40%);
-    left: 50%;
-    transform:  translate(-50%, -50%);
+  position: fixed;
+  top: calc(40%);
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* Style for showing link in oveylar mode */
 .qr-link-overlay {
-    color: #fff;
-    text-align: center;
-    position: fixed;
-    font-family: monospace;
-    top: calc(40% + 220px);
-    left:50%;
-    transform:translate(-50%, -50%);
-    max-width: 500px;
-    word-break: break-word;
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  font-family: monospace;
+  top: calc(40% + 220px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  word-break: break-word;
 }

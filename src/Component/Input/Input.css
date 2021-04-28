@@ -1,21 +1,22 @@
 /* MAke label into hint */
 .input-label {
-    pointer-events: none;
-    position: absolute;
-    text-transform: capitalize;
-    top: 10px;
-    left: 10px;
-    color: gray;
-    word-break: break-all;
-    font-family: monospace;
-    font-weight: bold;
-    transition: all 700ms;
+  pointer-events: none;
+  position: absolute;
+  text-transform: capitalize;
+  top: 10px;
+  left: 10px;
+  color: gray;
+  word-break: break-all;
+  font-family: monospace;
+  font-weight: bold;
+  transition: all 700ms;
 }
 
 /* Move hint above */
-.hasFocus, .input-wrapper input:focus + .input-label {
-    top: calc(-100% + 12px);
-    left: 0;
-    color: black;
-    transition: all 700ms;
+.hasFocus,
+.input-wrapper input:focus + .input-label {
+  top: calc(-100% + 12px);
+  left: 0;
+  color: black;
+  transition: all 700ms;
 }

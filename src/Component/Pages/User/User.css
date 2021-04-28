@@ -1,11 +1,14 @@
 /* Style for valid & invalid input */
-.bg-validate { background: rgba(0, 0, 255, 0.2); }
-.bg-invalidate { background: rgba(255, 0, 0, 0.2); }
-
+.bg-validate {
+  background: rgba(0, 0, 255, 0.2);
+}
+.bg-invalidate {
+  background: rgba(255, 0, 0, 0.2);
+}
 
 /* Style for user & csr name */
 .nameStyle {
-    font-family: monospace;
-    font-weight: bold;
-    padding: 0 20px;
+  font-family: monospace;
+  font-weight: bold;
+  padding: 0 20px;
 }

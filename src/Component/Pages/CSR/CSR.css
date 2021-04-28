@@ -1,65 +1,67 @@
 /* Style for session div container */
 .session-div {
-    background: rgba(0, 0, 255, 0.1);
-    border-radius: 5px;
+  background: rgba(0, 0, 255, 0.1);
+  border-radius: 5px;
 }
 
 /* Style for session title tag */
 .session-title {
-    font-weight: bold;
-    box-shadow: 0 1px #000;
-    font-size: 1.5em;
-    font-family: monospace;
+  font-weight: bold;
+  box-shadow: 0 1px #000;
+  font-size: 1.5em;
+  font-family: monospace;
 }
 
 /* Style for error txt */
 #session-errMsg {
-    display: block;
-    font-weight: bold;
-    font-size: medium;
-    font-family: monospace;
-    background: red;
-    color: white;
-    padding: 3px;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
+  display: block;
+  font-weight: bold;
+  font-size: medium;
+  font-family: monospace;
+  background: red;
+  color: white;
+  padding: 3px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* Style for admin links */
 .session-link {
-    display: block;
-    margin-top: 5px;
-    font-weight: bold;
-    font-size: medium;
-    font-family: monospace;
-    padding: 3px;
-    color: blue;
-    text-decoration: underline;
-    word-wrap: break-word;
-    border-radius: 5px;
-    cursor: pointer;
+  display: block;
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: medium;
+  font-family: monospace;
+  padding: 3px;
+  color: blue;
+  text-decoration: underline;
+  word-wrap: break-word;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .session-link:hover {
-    color: #000;
+  color: #000;
 }
 
 /* Style for session name of user */
 .session-name {
-    font-weight: bold;
-    font-size: large;
-    font-family: monospace;
-    word-wrap: break-word;
-    cursor: pointer;
+  font-weight: bold;
+  font-size: large;
+  font-family: monospace;
+  word-wrap: break-word;
+  cursor: pointer;
 }
 
 /* Style for user login/logout indicator */
 .session-online {
-    width: 2em;
-    height: 2em;
-    box-shadow: 1px 1px 10px #000;
-    border-radius: 50%;
-    margin: auto;
-    cursor: pointer;
+  width: 2em;
+  height: 2em;
+  box-shadow: 1px 1px 10px #000;
+  border-radius: 50%;
+  margin: auto;
+  cursor: pointer;
 }
-.online { background: green; }
+.online {
+  background: green;
+}
