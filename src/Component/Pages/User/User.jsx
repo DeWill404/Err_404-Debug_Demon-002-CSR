@@ -68,10 +68,14 @@ function User(props) {
             </div>
 
             <div id="inputs">
-              {" "}
-              {dataTree === "---" ? (
+              {!dataTree.username ? (
                 <span className="col nameStyle d-block text-center fs-1 mt-2">
-                  There is no data to show.
+                  Loading..
+                  <div class="ms-2 spinner-border" role="status"></div>
+                </span>
+              ) : Object.keys(dataTree).length === 1 ? (
+                <span className="col nameStyle d-block text-center fs-1 mt-2">
+                  There is not data to show..
                 </span>
               ) : (
                 Object.keys(dataTree).map(
@@ -79,7 +83,7 @@ function User(props) {
                     key !== "username" &&
                     showData(logged.user, dataTree, "", key)
                 )
-              )}{" "}
+              )}
             </div>
           </div>
         ) : (

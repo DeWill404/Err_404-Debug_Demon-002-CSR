@@ -142,7 +142,7 @@ function CSR(props) {
                       onClick={(e) =>
                         generateSession(
                           logged.csr,
-                          input.current.value,
+                          input.current.value.toLowerCase(),
                           setKey,
                           input
                         )

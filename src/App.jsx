@@ -12,20 +12,40 @@ import { setLabelHeight } from "./Component/Helper";
 // Overidde window resize to set label height on every size change
 window.onresize = () => setLabelHeight();
 
-function App() {
+function App(props) {
   const loginKey = "key";
-  const baseURL = "http://localhost:3000/";
+  const baseURL = window.location.href;
 
   return (
     <div>
       <Header />
       <Router>
         <Switch>
-          <Route path="/" component={() => <Home login={loginKey} url={baseURL} />} exact />
-          <Route path="/csr" component={() => <CSR login={loginKey} url={baseURL} />} exact />
-          <Route path="/admin/:id" component={(props) => <Admin login={loginKey} url={baseURL} />} exact />
-          <Route path="/user/:id" component={(props) => <User login={loginKey} url={baseURL} />} exact />
-          <Route path="/temp" component={() => <TEMP login={loginKey} url={baseURL} />} exact />
+          <Route
+            path="/"
+            component={() => <Home login={loginKey} url={baseURL} />}
+            exact
+          />
+          <Route
+            path="/csr"
+            component={() => <CSR login={loginKey} url={baseURL} />}
+            exact
+          />
+          <Route
+            path="/admin/:id"
+            component={(props) => <Admin login={loginKey} url={baseURL} />}
+            exact
+          />
+          <Route
+            path="/user/:id"
+            component={(props) => <User login={loginKey} url={baseURL} />}
+            exact
+          />
+          <Route
+            path="/temp"
+            component={() => <TEMP login={loginKey} url={baseURL} />}
+            exact
+          />
           <Route path="*" component={() => <NotFound />} />
         </Switch>
       </Router>

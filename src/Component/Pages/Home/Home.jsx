@@ -145,8 +145,8 @@ function Home(props) {
               login(
                 mode,
                 setLog,
-                uname.current ? uname.current.value : "",
-                upass.current ? upass.current.value : ""
+                uname.current ? uname.current.value.toLowerCase() : "",
+                upass.current ? upass.current.value.toLowerCase() : ""
               )
             }
           >
