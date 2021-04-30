@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { deleteData, getData, syncData } from "../../Firebase";
+import { getData, syncData, unregisterUser } from "../../Firebase";
 import Info from "../../Info";
-import { showData, DetailsContainer } from "./DetailRow";
+import { showData } from "./DetailRow";
+import { enableReload, disableReload } from "../../Helper";
 import "./Admin.css";
 import "../../../style.css";
 import Edit from "./Edit";
 
 function Admin(props) {
+  disableReload(() => {
+      // Remove register user of current session
+      sessionID && unregisterUser(sessionID);
+      // Log out user
+      sessionStorage.removeItem(props.login);
+  });
+
+  // React history Hook
   const history = useHistory();
 
   // Move key from local storage to session
@@ -36,6 +45,9 @@ function Admin(props) {
       // Sync session details
       syncData(`session/${csrID}/${sessionID}`, getDataTree);
     }
+
+    // Rest CSR Component
+    return () => enableReload(() => sessionID && unregisterUser(sessionID));
   }, []);
 
   return (

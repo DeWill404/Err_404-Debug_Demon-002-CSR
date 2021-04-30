@@ -83,12 +83,12 @@ function generateSession(key, name, setKey, input) {
 }
 
 function CSR(props) {
-  // disableReload(() => {
-  //     // Remove register user of current session
-  //     logged && unregisterUser(logged.csr);
-  //     // Log out user
-  //     sessionStorage.removeItem(props.login);
-  // });
+  disableReload(() => {
+      // Remove register user of current session
+      logged && unregisterUser(logged.csr);
+      // Log out user
+      sessionStorage.removeItem(props.login);
+  });
 
   // React history Hook
   const history = useHistory();
@@ -110,7 +110,7 @@ function CSR(props) {
     logged && syncData(`session/${logged.csr}`, getSessions);
 
     // Rest CSR Component
-    // return () => enableReload(() => logged && unregisterUser(logged.csr));
+    return () => enableReload(() => logged && unregisterUser(logged.csr));
   }, []);
 
   return (

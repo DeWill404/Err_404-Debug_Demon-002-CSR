@@ -1,4 +1,5 @@
 import API from "./env";
+import { cleanData } from "./Helper";
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -98,12 +99,12 @@ function clearData(id, path) {
 
 // Function save user Data
 function saveSession(id, data) {
-  // // Remove data
-  // db.ref(`session/${id}`).remove();
-  // // Remove user
-  // removeUser(data[key].username);
-  // // push clean data to firebase
-  // db.ref(`DATA/${data.username}`).set( cleanData(data) );
+  // Remove data
+  db.ref(`session/${id}`).remove();
+  // Remove user
+  removeUser(data.username);
+  // push clean data to firebase
+  db.ref(`DATA/${data.username}`).set( cleanData(data) );
 }
 
 export {

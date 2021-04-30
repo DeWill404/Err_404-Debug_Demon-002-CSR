@@ -58,6 +58,10 @@
   max-height: 80%;
 }
 
+/* Switch visibilty of badges in label */
+.label-text > .badge { visibility: hidden; }
+.label-text:hover > .badge { visibility: visible; }
+
 /* Set height of each row */
 .new { min-width: max-content; }
 

@@ -9,12 +9,12 @@ import "../../../style.css";
 
 function User(props) {
   // Disable reload
-  // disableReload(() => {
-  //     // Move current to safe storage
-  //     logged && saveSession(logged.user, dataTree);
-  //     // Log out user
-  //     sessionStorage.removeItem(props.login);
-  // });
+  disableReload(() => {
+      // Move current to safe storage
+      logged && saveSession(logged.user, dataTree);
+      // Log out user
+      sessionStorage.removeItem(props.login);
+  });
 
   // React history hook
   const history = useHistory();
@@ -43,7 +43,7 @@ function User(props) {
     if (!dataTree || (dataTree !== "---" && !dataTree.username))
       history.push("/_");
 
-    // return () => enableReload(() => logged && saveSession(logged.user, dataTree) );
+    return () => enableReload(() => logged && saveSession(logged.user, dataTree) );
   }, []);
 
   return (
