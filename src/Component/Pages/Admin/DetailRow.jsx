@@ -1,5 +1,5 @@
 import { clearData, deleteData, switchBool, updateData } from "../../Firebase";
-import { getPath } from "../../Helper";
+import { getPath, sep } from "../../Helper";
 import Input from "../../Input/Input";
 import "./Admin.css";
 
@@ -16,7 +16,7 @@ function showData(id, compressed, parent, tree, path, LABEL, bg, showEdit) {
       return (
         <DetailField
           key={getPath(path, LABEL)}
-          path={getPath(path, LABEL).replaceAll(" ⇒ ", "/")}
+          path={getPath(path, LABEL).replaceAll(sep, "/")}
           val={tree[LABEL][0]}
           name={compressed ? getPath(path, LABEL) : LABEL}
           validate={tree[LABEL][1]}
@@ -68,7 +68,7 @@ function showData(id, compressed, parent, tree, path, LABEL, bg, showEdit) {
 // Function to show container of input field
 function DetailsContainer(props) {
   // Data
-  const path = props.path.replaceAll(" ⇒ ", "/");
+  const path = props.path.replaceAll(sep, "/");
   const bg_color = props.bg_color;
   const LABEL = props.label;
   const func = props.func;
@@ -77,7 +77,7 @@ function DetailsContainer(props) {
 
   return (
     <div
-      className={`field-label ps-2 pt-1 border  border-dark
+      className={`field-label ps-2 border  border-dark
         ${isParent ? "my-2" : ""}
         ${
           !bg_color
@@ -86,16 +86,14 @@ function DetailsContainer(props) {
         }`}
       style={{ borderRadius: "10px 0" }}
     >
-      <span
-        className={`d-flex label-text text-capitalize ${isParent ? "p-1" : ""}`}
-      >
+      <span className="d-block label-text text-capitalize my-1" >
         {LABEL}
         <span
           class="badge bg-light text-dark mx-1 ms-2 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Add data`}
-          data-path={getPath(path, LABEL).replace(" ⇒ ", "/")}
+          data-path={getPath(path, LABEL).replace(sep, "/")}
           onClick={e => showEdit(e.target.getAttribute('data-path')) }
         >
           <i class="bi bi-plus-square" style={{pointerEvents:"none"}}></i>
@@ -105,7 +103,7 @@ function DetailsContainer(props) {
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Edit data`}
-          data-path={path+"/"+LABEL}
+          data-path={getPath(path, LABEL, "/")}
         >
           <i class="bi bi-pencil" style={{pointerEvents:"none"}}></i>
         </span>
@@ -115,7 +113,7 @@ function DetailsContainer(props) {
           data-placement="bottom"
           title={`Remove data`}
           onClick={() => clearData(ID, path + "/" + LABEL)}
-          data-path={path+"/"+LABEL}
+          data-path={getPath(path, LABEL, "/")}
         >
           <i class="bi bi-trash" style={{pointerEvents:"none"}}></i>
         </span>
@@ -160,7 +158,7 @@ function DetailField(props) {
             data-toggle="tooltip"
             data-placement="bottom"
             title={`Delete Field\nThis action is irreversible`}
-            onClick={() => deleteData(ID, path)}
+            onClick={() =>  deleteData(ID, path)}
           >
             <i class="bi bi-trash-fill"></i>
           </button>

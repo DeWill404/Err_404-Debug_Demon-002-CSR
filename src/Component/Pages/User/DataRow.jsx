@@ -15,7 +15,7 @@ function showData(id, tree, path, LABEL) {
       tree[LABEL][2] && (
         <DataRow
           key={getPath(path, LABEL)}
-          path={getPath(path, LABEL).replaceAll(" ⇒ ", "/")}
+          path={getPath(path, LABEL).replaceAll(sep, "/")}
           val={tree[LABEL][0]}
           name={getPath(path, LABEL)}
           validate={tree[LABEL][1]}
@@ -24,7 +24,7 @@ function showData(id, tree, path, LABEL) {
     );
   } else {
     return Object.keys(tree[LABEL]).map((label) =>
-      showData(id, tree[LABEL], `${path && path + " ⇒ "}${LABEL}`, label)
+      showData(id, tree[LABEL], getPath(path, LABEL), label)
     );
   }
 }

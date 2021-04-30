@@ -93,7 +93,7 @@ function deleteData(id, path) {
 
 // Function cleas data in from input field, save as empt object
 function clearData(id, path) {
-  db.ref(`session/${id}/${path}`).set("");
+  db.ref(`session/${id}/${path}`).set(["", false, false]);
 }
 
 // Function save user Data

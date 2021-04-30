@@ -38,8 +38,8 @@ function cleanData(data) {
 
 /* Function & seperator for path generation */
 var sep = " ⇒ ";
-const getPath = (path, label) => {
-  return `${path ? path + sep + label : label}`;
+const getPath = (path, label, SEP=sep) => {
+  return `${path ? path + SEP + label : label}`;
 };
 
 /* Function to set height of inputs */
