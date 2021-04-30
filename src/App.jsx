@@ -14,7 +14,9 @@ window.onresize = () => setLabelHeight();
 
 function App(props) {
   const loginKey = "key";
-  const baseURL = window.location.href;
+  const baseURL =
+    window.location.href.substring(0, window.location.href.indexOf("/", 7)) +
+    "/";
 
   return (
     <div>

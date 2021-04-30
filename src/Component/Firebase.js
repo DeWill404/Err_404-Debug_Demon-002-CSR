@@ -76,6 +76,11 @@ function switchBool(id, label, index, value) {
   db.ref(`session/${id}/${label}/${index}`).set(!value);
 }
 
+// Function to update data
+function setData(path, value) {
+  db.ref(`session/${path}`).update(value);
+}
+
 // Funtion to update data in input fields
 function updateData(id, label, value) {
   db.ref(`session/${id}/${label}/0`).set(value);
@@ -103,6 +108,7 @@ function saveSession(id, data) {
 
 export {
   getData,
+  setData,
   checkCredential,
   createSession,
   registerUser,

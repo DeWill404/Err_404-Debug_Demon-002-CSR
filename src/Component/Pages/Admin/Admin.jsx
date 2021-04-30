@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { deleteData, getData, syncData } from "../../Firebase";
 import Info from "../../Info";
-import { showData } from "./DetailRow";
+import { showData, DetailsContainer } from "./DetailRow";
 import "./Admin.css";
 import "../../../style.css";
+import Edit from "./Edit";
 
 function Admin(props) {
   const history = useHistory();
@@ -22,9 +23,9 @@ function Admin(props) {
   // React hook, to store data
   const [dataTree, getDataTree] = useState("---");
   // React hook, to compressed & expand view
-  const [compressed, setCompressed] = useState(
-    JSON.parse(sessionStorage.getItem("compresed"))
-  );
+  const [compressed, setCompressed] = useState( JSON.parse(sessionStorage.getItem("compresed")) );
+  // React hook, to set visibility of Edit Component
+  const [path, setPath] = useState( null );
 
   // Get csr name
   getData(`session/${csrID}/csr`, (val) => getCSR(val));
@@ -65,7 +66,7 @@ function Admin(props) {
                 checked={compressed}
                 onClick={(e) => {
                   // Switch btn compressed view and expanded view
-                  setCompressed(e.target.checked);
+                  setCompressed(!compressed);
                   sessionStorage.setItem(
                     "isCompressed",
                     JSON.stringify(compressed)
@@ -80,70 +81,25 @@ function Admin(props) {
             {dataTree !== "---" &&
               Object.keys(dataTree).map((KEY) => {
                 if (KEY !== "username")
-                  return compressed ? (
-                    showData(
-                      `${csrID}/${sessionID}`,
-                      compressed,
-                      dataTree,
-                      "",
-                      KEY,
-                      false
-                    )
-                  ) : (
-                    <div
-                      key={KEY}
-                      className={
-                        "field-label rounded-2 px-1 my-2 border bg-label"
-                      }
-                    >
-                      <span className="d-flex label-text text-capitalize p-1">
-                        {KEY}
-                        <span
-                          class="badge bg-light text-dark mx-1 ms-2 pointer"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title={`Add data`}
-                          onClick={() => {}}
-                        >
-                          <i class="bi bi-plus-square"></i>
-                        </span>
-                        <span
-                          class="badge bg-light text-dark mx-1 pointer"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title={`Edit data`}
-                        >
-                          <i class="bi bi-pencil"></i>
-                        </span>
-                        <span
-                          class="badge bg-light text-dark mx-1 pointer"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title={`Remove data`}
-                          onClick={() =>
-                            deleteData(`${csrID}/${sessionID}`, KEY)
-                          }
-                        >
-                          <i class="bi bi-trash"></i>
-                        </span>
-                      </span>
-                      {Object.keys(dataTree[KEY]).map((key) =>
-                        showData(
-                          `${csrID}/${sessionID}`,
-                          compressed,
-                          dataTree[KEY],
-                          KEY,
-                          key,
-                          true
-                        )
-                      )}
-                    </div>
+                  return showData(
+                    `${csrID}/${sessionID}`,
+                    compressed,
+                    true,
+                    dataTree,
+                    "",
+                    KEY,
+                    false,
+                    val => setPath(val)
                   );
               })}
 
-            <button className="add-new btn btn-success w-100 fs-3 mt-2">
+            <button
+              className="add-new btn btn-success w-100 fs-3 mt-2"
+              onClick={e => setPath('')} >
               +
             </button>
+
+            { path !== null && <Edit hide={() => setPath(null)} path={path} id={`${csrID}/${sessionID}/`} /> }
           </div>
         ) : (
           history.replace("/_")

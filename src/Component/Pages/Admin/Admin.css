@@ -20,3 +20,62 @@
   font-weight: bold;
   padding: 0 20px;
 }
+
+/* Style for edit btn in DetailRow */
+.edit-btn {
+  cursor: pointer;
+  padding-top: 6px;
+}
+
+/* Edit container overlay  */
+#edit-container-overlay {
+  background: rgba(0, 255, 255, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+/* Edittor body wrapper */
+#edit-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  border-radius: 10px;
+  box-shadow: 5px 3px 10px rgb(128, 128, 128);
+  padding: 10px;
+  padding-left: 0;
+  background: white;
+  width: 800px;
+  height: 500px;
+  max-width: 90%;
+  max-height: 80%;
+}
+
+/* Set height of each row */
+.new { min-width: max-content; }
+
+/* Set width of inputs fields */
+.new-body .input-group {
+  display: inline-block;
+  width: 150px;
+}
+
+/* Switch visibility of btns */
+.new-body > .btns { visibility: hidden; }
+.new-body:hover > .btns { visibility: visible; }
+
+/* Set position of submit btn */
+#edit-submit {
+  float: right;
+  position: sticky;
+  z-index: 5;
+  top: 10px;
+  left: 95%;
+}

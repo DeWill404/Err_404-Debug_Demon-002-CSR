@@ -6,7 +6,7 @@ import "./Admin.css";
 var ID = null;
 
 /* Function to show single row of data */
-function showData(id, compressed, tree, path, LABEL, bg) {
+function showData(id, compressed, parent, tree, path, LABEL, bg, showEdit) {
   // Set ID only if it is empty
   if (!ID) ID = id;
 
@@ -21,6 +21,7 @@ function showData(id, compressed, tree, path, LABEL, bg) {
           name={compressed ? getPath(path, LABEL) : LABEL}
           validate={tree[LABEL][1]}
           visible={tree[LABEL][2]}
+          parent={parent}
         />
       );
     else
@@ -29,10 +30,12 @@ function showData(id, compressed, tree, path, LABEL, bg) {
           showData(
             id,
             compressed,
+            false,
             tree[LABEL],
             getPath(path, LABEL),
             label,
-            !bg
+            !bg,
+            showEdit
           )
         )
       ) : (
@@ -41,15 +44,19 @@ function showData(id, compressed, tree, path, LABEL, bg) {
           path={path}
           bg_color={bg}
           label={LABEL}
+          parent={parent}
+          showEdit={showEdit}
           func={() =>
             Object.keys(tree[LABEL]).map((label) =>
               showData(
                 id,
                 compressed,
+                false,
                 tree[LABEL],
                 getPath(path, LABEL),
                 label,
-                !bg
+                !bg,
+                showEdit
               )
             )
           }
@@ -65,43 +72,55 @@ function DetailsContainer(props) {
   const bg_color = props.bg_color;
   const LABEL = props.label;
   const func = props.func;
+  const isParent = props.parent;
+  const showEdit = props.showEdit;
 
   return (
     <div
-      className={`field-label px-1 pb-0 pe-0 ${
-        !bg_color ? "bg-label text-dark" : "bg-label-white text-light"
-      }`}
-      style={{ borderRadius: "5px 0" }}
+      className={`field-label ps-2 pt-1 border  border-dark
+        ${isParent ? "my-2" : ""}
+        ${
+          !bg_color
+            ? "bg-label text-dark"
+            : "bg-label-white text-light"
+        }`}
+      style={{ borderRadius: "10px 0" }}
     >
-      <span className="d-flex label-text text-capitalize p-1">
+      <span
+        className={`d-flex label-text text-capitalize ${isParent ? "p-1" : ""}`}
+      >
         {LABEL}
         <span
-          class="badge bg-light text-dark mx-1 ms-2 pointer"
+          class="badge bg-light text-dark mx-1 ms-2 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Add data`}
+          data-path={getPath(path, LABEL).replace(" ⇒ ", "/")}
+          onClick={e => showEdit(e.target.getAttribute('data-path')) }
         >
-          <i class="bi bi-plus-square"></i>
+          <i class="bi bi-plus-square" style={{pointerEvents:"none"}}></i>
         </span>
         <span
-          class="badge bg-light text-dark mx-1 pointer"
+          class="badge bg-light text-dark mx-1 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Edit data`}
+          data-path={path+"/"+LABEL}
         >
-          <i class="bi bi-pencil"></i>
+          <i class="bi bi-pencil" style={{pointerEvents:"none"}}></i>
         </span>
         <span
-          class="badge bg-light text-dark mx-1 pointer"
+          class="badge bg-light text-dark mx-1 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Remove data`}
           onClick={() => clearData(ID, path + "/" + LABEL)}
+          data-path={path+"/"+LABEL}
         >
-          <i class="bi bi-trash"></i>
+          <i class="bi bi-trash" style={{pointerEvents:"none"}}></i>
         </span>
       </span>
-      { func() }
+      {func()}
     </div>
   );
 }
@@ -114,12 +133,13 @@ function DetailField(props) {
   const name = props.name;
   const validated = props.validate;
   const visibility = props.visible;
+  const isParent = props.parent;
 
   return (
     <div
-      className={`field-wrapper rounded-2 m-2 p-1 border ${
-        validated ? "bg-validate" : "bg-invalidate"
-      }`}
+      className={`field-wrapper rounded-2 m-2 p-1 px-2
+      ${isParent ? "mx-0" : "mt-1"}
+      ${validated ? "bg-validate" : "bg-invalidate"}`}
     >
       <div className="row gy-2 align-items-center text-center">
         <div className="col-12 col-md-6 col-lg-9">
@@ -177,4 +197,4 @@ function DetailField(props) {
   );
 }
 
-export { showData };
+export { showData, DetailsContainer };
