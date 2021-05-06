@@ -21,22 +21,15 @@ function showData(id, compressed, parent, tree, path, LABEL, bg, showEdit) {
           name={compressed ? getPath(path, LABEL) : LABEL}
           validate={tree[LABEL][1]}
           visible={tree[LABEL][2]}
-          parent={parent}
-        />
+          parent={parent} />
       );
     else
       return compressed ? (
         Object.keys(tree[LABEL]).map((label) =>
-          showData(
-            id,
-            compressed,
-            false,
-            tree[LABEL],
-            getPath(path, LABEL),
-            label,
-            !bg,
-            showEdit
-          )
+          showData( id, compressed,
+            false, tree[LABEL],
+            getPath(path, LABEL), label,
+            !bg, showEdit )
         )
       ) : (
         <DetailsContainer
@@ -48,16 +41,10 @@ function showData(id, compressed, parent, tree, path, LABEL, bg, showEdit) {
           showEdit={showEdit}
           func={() =>
             Object.keys(tree[LABEL]).map((label) =>
-              showData(
-                id,
-                compressed,
-                false,
-                tree[LABEL],
-                getPath(path, LABEL),
-                label,
-                !bg,
-                showEdit
-              )
+              showData( id, compressed,
+                false, tree[LABEL],
+                getPath(path, LABEL), label,
+                !bg, showEdit )
             )
           }
         />
@@ -77,13 +64,9 @@ function DetailsContainer(props) {
 
   return (
     <div
-      className={`field-label ps-2 border  border-dark
+      className={ `field-label ps-2 border  border-dark
         ${isParent ? "my-2" : ""}
-        ${
-          !bg_color
-            ? "bg-label text-dark"
-            : "bg-label-white text-light"
-        }`}
+        ${!bg_color ? "bg-label text-dark" : "bg-label-white text-light"}` }
       style={{ borderRadius: "10px 0" }}
     >
       <span className="d-block label-text text-capitalize my-1" >
@@ -94,30 +77,30 @@ function DetailsContainer(props) {
           data-placement="bottom"
           title={`Add data`}
           data-path={getPath(path, LABEL).replace(sep, "/")}
-          onClick={e => showEdit(e.target.getAttribute('data-path')) }
-        >
+          onClick={e => showEdit(e.target.getAttribute('data-path')) } >
           <i class="bi bi-plus-square" style={{pointerEvents:"none"}}></i>
         </span>
+
         <span
           class="badge bg-light text-dark mx-1 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Edit data`}
-          data-path={getPath(path, LABEL, "/")}
-        >
+          data-path={getPath(path, LABEL, "/")} >
           <i class="bi bi-pencil" style={{pointerEvents:"none"}}></i>
         </span>
+
         <span
           class="badge bg-light text-dark mx-1 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Remove data`}
           onClick={() => clearData(ID, path + "/" + LABEL)}
-          data-path={getPath(path, LABEL, "/")}
-        >
+          data-path={getPath(path, LABEL, "/")} >
           <i class="bi bi-trash" style={{pointerEvents:"none"}}></i>
         </span>
       </span>
+      
       {func()}
     </div>
   );

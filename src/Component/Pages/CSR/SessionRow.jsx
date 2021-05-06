@@ -15,8 +15,7 @@ function SessionRow(props) {
           className={`session-online ${isOnline ? "online" : ""}`}
           data-toggle="tooltip"
           data-placement="bottom"
-          title={isOnline ? "Online" : "Offline"}
-        ></div>
+          title={isOnline ? "Online" : "Offline"} ></div>
       </div>
 
       <div className="col">
@@ -29,13 +28,12 @@ function SessionRow(props) {
           target="_blank"
           rel="noreferrer"
           className="session-link"
-        >
+          onClick={ () => props.save() } >
           Admin: {admin_link}
         </a>
         <span
           className="session-link"
-          style={{ color: "black", textDecoration: "none" }}
-        >
+          style={{ color: "black", textDecoration: "none" }} >
           User: {user_link}
         </span>
       </div>

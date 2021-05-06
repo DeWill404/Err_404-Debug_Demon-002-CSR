@@ -40,6 +40,7 @@ function Input(props) {
                         ? e.target.value.trim().toLowerCase()
                         : e.target.value.trim();
           setValue(val);
+          // Call parent onChange function
           props.onChange && props.onChange(val);
         }}
         autoComplete="off"

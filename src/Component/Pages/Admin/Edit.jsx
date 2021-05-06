@@ -153,6 +153,7 @@ function Edit(props) {
         if (e.target === document.getElementById('edit-container-overlay')) 
           props.hide(false); // Cancel the edit pop up
       }} >
+
       <div id="edit-wrapper">
         <button
           id="edit-submit"
@@ -176,6 +177,7 @@ function Edit(props) {
         </button>
         <New label="" data="" parent={true} readOnly={false} />
       </div>
+      
     </div>
   );
 }

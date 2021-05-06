@@ -62,8 +62,7 @@ function DataRow(props) {
           labelClass={val && "hasFocus"}
           val={val}
           onChange={(value) => updateData(ID, path, value)}
-          path={path}
-        />
+          path={path} />
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import { showData } from "./DataRow";
 import "./User.css";
 import "../../../style.css";
 
+
 function User(props) {
   // Disable reload
   disableReload(() => {
@@ -68,22 +69,28 @@ function User(props) {
             </div>
 
             <div id="inputs">
-              {!dataTree.username ? (
-                <span className="col nameStyle d-block text-center fs-1 mt-2">
-                  Loading..
-                  <div class="ms-2 spinner-border" role="status"></div>
-                </span>
-              ) : Object.keys(dataTree).length === 1 ? (
-                <span className="col nameStyle d-block text-center fs-1 mt-2">
-                  There is not data to show..
-                </span>
-              ) : (
-                Object.keys(dataTree).map(
-                  (key) =>
-                    key !== "username" &&
-                    showData(logged.user, dataTree, "", key)
+              {
+                // If session is ended
+                !dataTree.username ? (
+                  <span className="col nameStyle d-block text-center fs-1 mt-2">
+                    Loading..
+                    <div class="ms-2 spinner-border" role="status"></div>
+                  </span>
+                ) :
+                // If there is no data
+                Object.keys(dataTree).length === 1 ? (
+                  <span className="col nameStyle d-block text-center fs-1 mt-2">
+                    There is not data to show..
+                  </span>
+                ) :
+                // Show data
+                ( Object.keys(dataTree).map(
+                    (key) =>
+                      key !== "username" &&
+                      showData(logged.user, dataTree, "", key)
+                  )
                 )
-              )}
+              }
             </div>
           </div>
         ) : (

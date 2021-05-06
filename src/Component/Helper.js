@@ -29,7 +29,7 @@ function cleanData(data) {
   // Iterate over object
   // If key is not username
   for (const key in data)
-    if (!(key === "username" && typeof data[key] === "string"))
+    if (!(typeof data[key] === "string"))
       obj[key] = Array.isArray(data[key]) ? data[key][0] : cleanData(data[key]);
 
   // return object

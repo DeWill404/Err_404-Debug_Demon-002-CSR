@@ -4,6 +4,7 @@ import { checkCredential, createSession } from "../../Firebase";
 import Input from "../../Input/Input";
 import "./Home.css";
 
+
 /* Switch btn user & CSR mode */
 function switchMode(mode, setter) {
   // get click btn
@@ -28,6 +29,7 @@ function setErrMSG(msg) {
   document.getElementById("btn-spinner").classList.add("visually-hidden");
 }
 
+
 /* Function to login user if details is valid */
 function login(mode, setlog, name, pass) {
   // Make spinner visible
@@ -35,18 +37,17 @@ function login(mode, setlog, name, pass) {
 
   // If mode is CSR && username & password is entered
   if (mode === 0 && name && pass)
-    checkCredential("csr", name)
-      .then((snap) => {
-        // Check if detail are valid
-        if (snap.val() && snap.val().pass === pass) {
-          // create a csr new session
-          const [newSession, sessionKey] = createSession("", { csr: name });
-          newSession
-            .then(() => setlog({ csr: sessionKey }))
-            .catch((err) => console.error(err));
-        } else setErrMSG("Invalid Details");
-      })
-      .catch((err) => console.error(err));
+    checkCredential("csr", name).then((snap) => {
+      // Check if detail are valid
+      if (snap.val() && snap.val().pass === pass) {
+        // create a csr new session
+        const [newSession, sessionKey] = createSession("", { csr: name });
+        newSession
+          .then(() => setlog({ csr: sessionKey }))
+          .catch((err) => console.error(err));
+      } else setErrMSG("Invalid Details");
+    }).catch((err) => console.error(err));
+
   // If mode is CSR && username is entered
   else if (mode === 1 && name)
     checkCredential("user", name)
@@ -56,9 +57,11 @@ function login(mode, setlog, name, pass) {
         else setErrMSG("Invalid Details");
       })
       .catch((err) => console.error(err));
+
   // If input is not entered
   else setErrMSG("Enter all details");
 }
+
 
 function Home(props) {
   // React history Hook
@@ -99,8 +102,7 @@ function Home(props) {
         onClick={(e) => (e.target.style.visibility = "hidden")}
         data-toggle="tooltip"
         data-placement="bottom"
-        title="Click to hide"
-      >
+        title="Click to hide" >
         Invalid
       </span>
 
@@ -111,30 +113,27 @@ function Home(props) {
           style={{
             borderBottom: "1px #aaa solid",
             borderTop: "1px #aaa solid",
-          }}
-        >
+          }} >
+
           <div
             className="mode-btn btn-active btn btn-outline-primary btn-lg col-6"
-            onClick={() => switchMode(0, setMode)}
-          >
+            onClick={() => switchMode(0, setMode)} >
             CSR
           </div>
           <div
             className="mode-btn btn btn-outline-primary btn-lg col-6"
-            onClick={() => switchMode(1, setMode)}
-          >
+            onClick={() => switchMode(1, setMode)} >
             USER
           </div>
         </div>
+
         <div className="form-section p-3 pt-1">
           <Input type="text" name="Username" label="Username" toLower={true} />
           {mode === 0 && ( <Input type="password" name="Password" label="Password" /> )}
           <button
             className="mt-4 btn btn-primary align-item-center"
             onClick={() =>
-              login(
-                mode,
-                setLog,
+              login( mode, setLog,
                 document.querySelector("input[name='Username']").value,
                 document.querySelector("input[name='Password']")?.value
               )

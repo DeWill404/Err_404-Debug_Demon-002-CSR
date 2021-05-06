@@ -14,11 +14,14 @@ function startFirebase() {
 }
 startFirebase();
 
+
 // Export firebase object
 export default firebase;
 
+
 // Get database
 const db = firebase.database();
+
 
 // Function of get data at given path
 function getData(path, func) {
@@ -28,10 +31,12 @@ function getData(path, func) {
     .catch((err) => console.error(err));
 }
 
+
 // Function to return promise to check if details are valid
 function checkCredential(type, userName) {
   return db.ref(`${type}/${userName}`).get();
 }
+
 
 // Function to create user session
 function createSession(path, inital) {
@@ -39,10 +44,12 @@ function createSession(path, inital) {
   return [newSession.set(inital), newSession.key];
 }
 
+
 // Function to register user to session
 function registerUser(uname, key) {
   db.ref(`user/${uname}`).set(key);
 }
+
 
 // Function to do realtime sync on given path
 function syncData(path, setter) {
@@ -53,10 +60,12 @@ function syncData(path, setter) {
   );
 }
 
+
 // Funtion to remove user
 function removeUser(uname) {
   db.ref(`user/${uname}`).remove();
 }
+
 
 // Function to unregister(remove) user from database of current session & delete data
 function unregisterUser(id) {
@@ -72,30 +81,36 @@ function unregisterUser(id) {
     .catch((err) => console.error(err));
 }
 
+
 // Funtion to switch validation of input field
 function switchBool(id, label, index, value) {
   db.ref(`session/${id}/${label}/${index}`).set(!value);
 }
+
 
 // Function to update data
 function setData(path, value) {
   db.ref(`session/${path}`).update(value);
 }
 
+
 // Funtion to update data in input fields
 function updateData(id, label, value) {
   db.ref(`session/${id}/${label}/0`).set(value);
 }
+
 
 // Function remove data in from input field
 function deleteData(id, path) {
   db.ref(`session/${id}/${path}`).remove();
 }
 
+
 // Function cleas data in from input field, save as empt object
 function clearData(id, path) {
   db.ref(`session/${id}/${path}`).set(["", false, false]);
 }
+
 
 // Function save user Data
 function saveSession(id, data) {

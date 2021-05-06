@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { getData, syncData, unregisterUser } from "../../Firebase";
+import { getData, syncData, saveSession } from "../../Firebase";
 import Info from "../../Info";
 import { showData } from "./DetailRow";
 import { enableReload, disableReload } from "../../Helper";
@@ -8,10 +8,12 @@ import "./Admin.css";
 import "../../../style.css";
 import Edit from "./Edit";
 
+
 function Admin(props) {
+  // Disable reload
   disableReload(() => {
-      // Remove register user of current session
-      sessionID && unregisterUser(sessionID);
+      // Move current to safe storage
+      sessionID && saveSession(`${csrID}/${sessionID}`, dataTree);
       // Log out user
       sessionStorage.removeItem(props.login);
   });
@@ -47,7 +49,7 @@ function Admin(props) {
     }
 
     // Rest CSR Component
-    return () => enableReload(() => sessionID && unregisterUser(sessionID));
+    return () => enableReload( () => sessionID && saveSession(`${csrID}/${sessionID}`, dataTree) );
   }, []);
 
   return (
@@ -79,10 +81,7 @@ function Admin(props) {
                 onClick={(e) => {
                   // Switch btn compressed view and expanded view
                   setCompressed(!compressed);
-                  sessionStorage.setItem(
-                    "isCompressed",
-                    JSON.stringify(compressed)
-                  );
+                  sessionStorage.setItem( "isCompressed", JSON.stringify(compressed) );
                 }}
               />
               <label class="form-check-label label-text" for="switch">
@@ -90,28 +89,23 @@ function Admin(props) {
               </label>
             </div>
 
-            {dataTree !== "---" &&
+            { dataTree !== "---" &&
               Object.keys(dataTree).map((KEY) => {
                 if (KEY !== "username")
                   return showData(
-                    `${csrID}/${sessionID}`,
-                    compressed,
-                    true,
-                    dataTree,
-                    "",
-                    KEY,
-                    false,
-                    val => setPath(val)
-                  );
-              })}
+                    `${csrID}/${sessionID}`, compressed,
+                    true, dataTree, "", KEY,
+                    false, val => setPath(val) );
+              })
+            }
 
-            <button
-              className="add-new btn btn-success w-100 fs-3 mt-2"
-              onClick={e => setPath('')} >
+            <button className="add-new btn btn-success w-100 fs-3 mt-2" onClick={e => setPath('')} >
               +
             </button>
 
-            { path !== null && <Edit hide={() => setPath(null)} path={path} id={`${csrID}/${sessionID}/`} /> }
+            { path !== null && 
+              <Edit hide={() => setPath(null)} path={path} id={`${csrID}/${sessionID}/`} />
+            }
           </div>
         ) : (
           history.replace("/_")

@@ -1,11 +1,6 @@
 import { React, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
-import {
-  createSession,
-  registerUser,
-  syncData,
-  unregisterUser,
-} from "../../Firebase";
+import { createSession, registerUser, syncData, unregisterUser } from "../../Firebase";
 import { disableReload, enableReload } from "../../Helper";
 import Info from "../../Info";
 import Input from "../../Input/Input";
@@ -13,16 +8,16 @@ import Qrcode from "../../Qrcode/Qrcode";
 import SessionRow from "./SessionRow";
 import "./CSR.css";
 
+
 /* Method to show error message */
 function showErr(msg) {
   if (msg) {
     document.getElementById("session-errMsg").innerHTML = msg;
-    document
-      .getElementById("session-errMsg")
-      .classList.remove("visually-hidden");
+    document.getElementById("session-errMsg").classList.remove("visually-hidden");
   }
   document.getElementById("btn-spinner").classList.add("visually-hidden");
 }
+
 
 /* Method to generate session for user */
 function generateSession(key, setKey) {
@@ -31,58 +26,35 @@ function generateSession(key, setKey) {
   const txt = document.getElementById("btn-txt");
 
   // Get input field
-  const input = document.querySelector("input[name='Username']");
-  const name = input.value;
+  const name = document.querySelector("input[name='Username']").value;
+  document.querySelector("input[name='Username']").value = "";
 
-  // Generate new user session
-  if (txt.innerHTML === "Generate") {
-    if (name) {
-      // Show spinner
-      document
-        .getElementById("btn-spinner")
-        .classList.remove("visually-hidden");
+  // If any value is entered
+  if (name) {
+    // Show spinner
+    document.getElementById("btn-spinner").classList.remove("visually-hidden");
 
-      // Check if username is valie
-      if (name.match(/^\w+$/g)) {
-        // Generate session
-        const [newSession, sessionKey] = createSession(key, { username: name });
-        newSession
-          .then(() => {
-            // Save session key
-            setKey(sessionKey);
-
-            // Register user
-            registerUser(name, `${key}/${sessionKey}`);
-
-            // switch to clear option
-            btn.classList.remove("btn-primary");
-            btn.classList.add("btn-secondary");
-            txt.innerHTML = "Clear";
-            showErr(null);
-          })
-          .catch((err) => {
-            console.error(err);
-            showErr("An error occured");
-          });
-      } else
-        showErr(
-          "Username is invalid <br/> It should only contain <br/> Only Alphanumeric character <br/> No spaces anywhere <br/> No special character"
-        );
-    } else showErr("Enter the username");
-  }
-  // Clear screen
-  else {
-    // Reset current key
-    setKey(null);
-
-    // Clear input
-    input.value = "";
-    input.nextSibling.classList.remove("hasFocus");
-
-    // switch to generate option
-    btn.classList.remove("btn-secondary");
-    btn.classList.add("btn-primary");
-    txt.innerHTML = "Generate";
+    // Check if username is valie
+    if (name.match(/^\w+$/g)) {
+      // Generate session
+      const [newSession, sessionKey] = createSession(key, { username: name });
+      newSession.then(() => {
+        // Save session key
+        setKey(sessionKey);
+        // Register user
+        registerUser(name, `${key}/${sessionKey}`);
+        // clear error
+        showErr(null);
+      }).catch((err) => {
+        console.error(err);
+        showErr("An error occured");
+      });
+    } else
+      showErr(
+        "Username is invalid <br/> It should only contain <br/> Only Alphanumeric character <br/> No spaces anywhere <br/> No special character"
+      );
+  } else {
+    showErr("Enter the username");
   }
 }
 
@@ -128,71 +100,36 @@ function CSR(props) {
             <div className="session-div p-2">
               <span className="session-title">New Session:</span>
               <div className="row">
-                <div className="col-6">
-                  <Input
-                    type="text"
-                    name="Username"
-                    label="Username"
-                    toLower={true}
-                    style={{ maxWidth: "300px" }}
-                  />
-                  <div>
-                    <button
-                      id="btn-submit"
-                      className="my-2 btn btn-primary align-item-center"
-                      onClick={(e) =>
-                        generateSession(logged.csr, setKey)
-                      }
-                    >
-                      <span id="btn-txt" className="me-1">
-                        Generate
-                      </span>
-                      <span
-                        id="btn-spinner"
-                        className="spinner-border spinner-border-sm visually-hidden"
-                      ></span>
-                    </button>
-
-                    <span
-                      id="session-errMsg"
-                      className="visually-hidden"
-                      onClick={(e) => e.target.classList.add("visually-hidden")}
-                      data-toggle="tooltip"
-                      data-placement="bottom"
-                      title="Click to hide"
-                    >
-                      Invalid
+                <div className="col-md-6">
+                  <Input type="text" name="Username" label="Username" toLower={true} style={{ maxWidth: "300px" }} />
+                  <button
+                    id="btn-submit"
+                    className="my-2 btn btn-primary align-item-center"
+                    onClick={ () => generateSession(logged.csr, setKey) } >
+                    <span id="btn-txt" className="me-1">
+                      Generate
                     </span>
-
-                    {sessionKey && (
-                      <a
-                        href={`admin/${sessionKey}`}
-                        className="session-link"
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() =>
-                          localStorage.setItem(props.login, logged.csr)
-                        }
-                      >
-                        Admin: {props.url}admin/{sessionKey}
-                      </a>
-                    )}
-                  </div>
+                    <span
+                      id="btn-spinner"
+                      className="spinner-border spinner-border-sm visually-hidden"></span>
+                  </button>
                 </div>
-
-                <div className="col-6">
-                  {sessionKey && (
-                    <div>
-                      <Qrcode link={`${props.url}user/${sessionKey}`} />
-                      <span className="session-link">
-                        User: {props.url}user/{sessionKey}
-                      </span>
-                    </div>
-                  )}
+                <div className="col-md-6">
+                  <span
+                    id="session-errMsg"
+                    className="visually-hidden"
+                    onClick={(e) => e.target.classList.add("visually-hidden")}
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="Click to hide" >
+                    Invalid
+                  </span>
                 </div>
               </div>
             </div>
+
             <hr />
+            
             <div className="session-div p-2">
               <span className="session-title">All Sessions:</span>
               {sessions &&
@@ -203,6 +140,7 @@ function CSR(props) {
                         key={key}
                         link={`${props.url}user/${key}`}
                         obj={sessions[key]}
+                        save={() => localStorage.setItem(props.login, logged.csr) }
                       />
                     )
                   );
