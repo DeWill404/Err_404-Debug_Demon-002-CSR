@@ -69,9 +69,6 @@ function Home(props) {
   // React Hook, to check if user is logged in or not
   const [logged, setLog] = useState(null);
 
-  const uname = useRef(null);
-  const upass = useRef(null);
-
   // React Hook, to run only first render
   useEffect(() => {
     // Set login value to state, if user was logged in
@@ -130,23 +127,16 @@ function Home(props) {
           </div>
         </div>
         <div className="form-section p-3 pt-1">
-          <Input type="text" name="Username" label="Username" refer={uname} />
-          {mode === 0 && (
-            <Input
-              type="password"
-              name="Password"
-              label="Password"
-              refer={upass}
-            />
-          )}
+          <Input type="text" name="Username" label="Username" toLower={true} />
+          {mode === 0 && ( <Input type="password" name="Password" label="Password" /> )}
           <button
             className="mt-4 btn btn-primary align-item-center"
             onClick={() =>
               login(
                 mode,
                 setLog,
-                uname.current ? uname.current.value.toLowerCase() : "",
-                upass.current ? upass.current.value.toLowerCase() : ""
+                document.querySelector("input[name='Username']").value,
+                document.querySelector("input[name='Password']")?.value
               )
             }
           >

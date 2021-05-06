@@ -61,7 +61,7 @@ function DataRow(props) {
           name={name.replaceAll(sep, "_").replaceAll(" ", "_")}
           labelClass={val && "hasFocus"}
           val={val}
-          update={(value) => updateData(ID, path, value)}
+          onChange={(value) => updateData(ID, path, value)}
           path={path}
         />
       </div>

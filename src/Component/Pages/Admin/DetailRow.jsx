@@ -143,11 +143,11 @@ function DetailField(props) {
         <div className="col-12 col-md-6 col-lg-9">
           <Input
             type="text"
-            label={name}
             name={path.replaceAll("/", "_").replaceAll(" ", "_")}
+            label={name}
             labelClass={val && "hasFocus"}
             val={val}
-            update={(value) => updateData(ID, path, value)}
+            onChange={(value) => updateData(ID, path, value)}
             path={path}
           />
         </div>

@@ -25,10 +25,14 @@ function showErr(msg) {
 }
 
 /* Method to generate session for user */
-function generateSession(key, name, setKey, input) {
+function generateSession(key, setKey) {
   // Get submit btn
   const btn = document.getElementById("btn-submit");
   const txt = document.getElementById("btn-txt");
+
+  // Get input field
+  const input = document.querySelector("input[name='Username']");
+  const name = input.value;
 
   // Generate new user session
   if (txt.innerHTML === "Generate") {
@@ -72,8 +76,8 @@ function generateSession(key, name, setKey, input) {
     setKey(null);
 
     // Clear input
-    input.current.value = "";
-    input.current.nextSibling.classList.remove("hasFocus");
+    input.value = "";
+    input.nextSibling.classList.remove("hasFocus");
 
     // switch to generate option
     btn.classList.remove("btn-secondary");
@@ -100,9 +104,6 @@ function CSR(props) {
   const [sessionKey, setKey] = useState(null);
   // React hook, to store real-time all session details of login csr
   const [sessions, getSessions] = useState(null);
-
-  // React hook, to store reference of input tag
-  const input = useRef(null);
 
   // React hook, to do realtime sync data of all session
   // Delete all session when exiting
@@ -132,7 +133,7 @@ function CSR(props) {
                     type="text"
                     name="Username"
                     label="Username"
-                    refer={input}
+                    toLower={true}
                     style={{ maxWidth: "300px" }}
                   />
                   <div>
@@ -140,12 +141,7 @@ function CSR(props) {
                       id="btn-submit"
                       className="my-2 btn btn-primary align-item-center"
                       onClick={(e) =>
-                        generateSession(
-                          logged.csr,
-                          input.current.value.toLowerCase(),
-                          setKey,
-                          input
-                        )
+                        generateSession(logged.csr, setKey)
                       }
                     >
                       <span id="btn-txt" className="me-1">
