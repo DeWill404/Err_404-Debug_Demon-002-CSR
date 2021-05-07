@@ -1,3 +1,15 @@
+/* Function to generate key of random length */
+function generateKey() {
+  const length = Math.round(Math.random()*12)+8;
+
+  var key = "";
+  for(let j=0; j<length; j++)
+    key += String.fromCharCode(Math.round(Math.random()*93+33));
+
+  return key;
+}
+
+
 /* Disable web reload */
 function disableReload(func) {
   window.onbeforeunload = () => {
@@ -57,4 +69,12 @@ function setLabelHeight(name) {
   for (let i = 0; i < elements.length; i++) changeHeight(elements[i]);
 }
 
-export { disableReload, enableReload, cleanData, sep, getPath, setLabelHeight };
+export {
+  generateKey,
+  disableReload,
+  enableReload,
+  cleanData,
+  sep,
+  getPath,
+  setLabelHeight
+};

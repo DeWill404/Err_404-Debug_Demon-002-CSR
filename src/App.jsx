@@ -7,7 +7,7 @@ import TEMP from "./Component/Pages/TEMP";
 import Footer from "./Component/Footer";
 import Header from "./Component/Header";
 import Admin from "./Component/Pages/Admin/Admin";
-import { setLabelHeight } from "./Component/Helper";
+import { generateKey, setLabelHeight } from "./Component/Helper";
 
 
 // Overidde window resize to set label height on every size change
@@ -15,9 +15,8 @@ window.onresize = () => setLabelHeight();
 
 
 function App(props) {
-  const loginKey = "key";
-  const baseURL =
-    window.location.href.substring(0, window.location.href.indexOf("/", 7)) + "/";
+  const loginKey = generateKey();
+  const baseURL = window.location.href.substring(0, window.location.href.indexOf("/", 7)) + "/";
 
   return (
     <div>
