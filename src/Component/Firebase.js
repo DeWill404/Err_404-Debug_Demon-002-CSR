@@ -94,12 +94,6 @@ function setData(path, value) {
 }
 
 
-// Funtion to update data in input fields
-function updateData(id, label, value) {
-  db.ref(`session/${id}/${label}/0`).set(value);
-}
-
-
 // Function remove data in from input field
 function deleteData(id, path) {
   db.ref(`session/${id}/${path}`).remove();
@@ -132,7 +126,6 @@ export {
   removeUser,
   unregisterUser,
   switchBool,
-  updateData,
   deleteData,
   clearData,
   saveSession,

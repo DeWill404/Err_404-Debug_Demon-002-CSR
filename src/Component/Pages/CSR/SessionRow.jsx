@@ -3,7 +3,7 @@ import "./CSR.css";
 
 function SessionRow(props) {
   // DATA
-  const isOnline = props.obj.online && props.obj.online;
+  const isOnline = props.obj?.user === 'online';
   const username = props.obj.username;
   const admin_link = props.link.replace("user", "admin");
   const user_link = props.link;

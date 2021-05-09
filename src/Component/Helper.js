@@ -1,6 +1,8 @@
+import { setData } from "./Firebase";
+
 /* Function to generate key of random length */
 function generateKey() {
-  const length = Math.round(Math.random()*12)+8;
+  const length = Math.round(Math.random()*16)+10;
 
   var key = "";
   for(let j=0; j<length; j++)
@@ -69,6 +71,17 @@ function setLabelHeight(name) {
   for (let i = 0; i < elements.length; i++) changeHeight(elements[i]);
 }
 
+/* Check if session already is going, if not then start new one */
+function isSessionActive(status, path, value) {
+  console.log(status, path, value);
+  if (status === "offline" || status === undefined)
+    setData(`${path}`, value);
+  else if (status !== Object.values(value)[0])
+    return true;
+
+  return false;
+}
+
 export {
   generateKey,
   disableReload,
@@ -76,5 +89,6 @@ export {
   cleanData,
   sep,
   getPath,
-  setLabelHeight
+  setLabelHeight,
+  isSessionActive
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { syncData, saveSession } from "../../Firebase";
-import { disableReload, enableReload } from "../../Helper";
+import { syncData, saveSession, setData } from "../../Firebase";
+import { disableReload, enableReload, isSessionActive } from "../../Helper";
 import Info from "../../Info";
 import { showData } from "./DataRow";
 import "./User.css";
@@ -41,65 +41,73 @@ function User(props) {
     }
 
     // Check if key is not valid
-    if (!dataTree || (dataTree !== "---" && !dataTree.username))
+    if (dataTree?.username===null && dataTree!=="---")
       history.push("/_");
 
     return () => enableReload(() => logged && saveSession(logged.user, dataTree) );
   }, []);
 
   return (
-    <main id="wrapper">
-      {logged && logged.user ? (
-        dataTree && (dataTree === "---" || dataTree.username) ? (
+    <main id="wrapper"> {
+      logged && logged.user ? (
+        dataTree?.username || dataTree==="---" ? (
           <div className="container">
             <title>
-              CSR | {dataTree && dataTree !== "---" ? dataTree.username : "---"}
+              CSR | {dataTree?.username ? dataTree.username : "---"}
             </title>
             <Info />
 
             <div className="row justify-content-betweeen">
-              <span className="col nameStyle">
-                {dataTree &&
-                  dataTree !== "---" &&
-                  `Hello, ${dataTree.username}`}
+              <span className="col nameStyle" >
+                {dataTree?.username && `Hello, ${dataTree.username}`}
               </span>
-              <span className="col nameStyle text-end">
+              <span
+                className={`col nameStyle text-end ${dataTree?.csr!=="offline" ? "" : "text-secondary"}`}
+                data-toggle="tooltip"
+                data-placement="bottom"
+                title={dataTree?.csr!=="offline" ? "Online" : "Offline"}
+                style={{cursor:"pointer"}} >
                 {csr && csr !== "---" && `CSR: ${csr}`}
               </span>
             </div>
 
-            <div id="inputs">
-              {
-                // If session is ended
-                !dataTree.username ? (
+            <div id="inputs"> {
+                // If session is not started
+                dataTree==='---' ? (
                   <span className="col nameStyle d-block text-center fs-1 mt-2">
                     Loading..
-                    <div class="ms-2 spinner-border" role="status"></div>
+                    <div className="ms-2 spinner-border" role="status"></div>
                   </span>
                 ) :
-                // If there is no data
-                Object.keys(dataTree).length === 1 ? (
+                // IF a session is already undergoing
+                isSessionActive(dataTree?.user, logged.user, {'user':props.login}) ? (
                   <span className="col nameStyle d-block text-center fs-1 mt-2">
-                    There is not data to show..
+                    There is another session going on, please close that session & try again...
                   </span>
-                ) :
-                // Show data
-                ( Object.keys(dataTree).map(
-                    (key) =>
-                      key !== "username" &&
-                      showData(logged.user, dataTree, "", key)
-                  )
+                ) : (
+                  <div> {
+                    // If there is no data
+                    Object.keys(dataTree).length <= 3 ? (
+                      <span className="col nameStyle d-block text-center fs-1 mt-2">
+                        There is not data to show..
+                      </span>
+                    ) :
+                    // Show data
+                    ( Object.keys(dataTree).map(
+                        (key) =>
+                        (typeof(dataTree[key]) !== 'string') && showData(logged.user, dataTree, "", key)
+                    ))
+                  } </div>
                 )
-              }
-            </div>
+            } </div>
           </div>
         ) : (
           history.replace("/_")
         )
       ) : (
         history.replace("/")
-      )}
-    </main>
+      )
+    } </main>
   );
 }
 

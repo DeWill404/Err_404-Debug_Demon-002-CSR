@@ -1,4 +1,4 @@
-import { switchBool, updateData } from "../../Firebase";
+import { switchBool, setData } from "../../Firebase";
 import { getPath, sep } from "../../Helper";
 import Input from "../../Input/Input";
 
@@ -61,7 +61,7 @@ function DataRow(props) {
           name={name.replaceAll(sep, "_").replaceAll(" ", "_")}
           labelClass={val && "hasFocus"}
           val={val}
-          onChange={(value) => updateData(ID, path, value)}
+          onChange={(value) => setData(`${ID}/${path}/0`, value)}
           path={path} />
       </div>
     </div>

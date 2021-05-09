@@ -1,10 +1,9 @@
-import { React, useEffect, useRef, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { createSession, registerUser, syncData, unregisterUser } from "../../Firebase";
 import { disableReload, enableReload } from "../../Helper";
 import Info from "../../Info";
 import Input from "../../Input/Input";
-import Qrcode from "../../Qrcode/Qrcode";
 import SessionRow from "./SessionRow";
 import "./CSR.css";
 
@@ -20,11 +19,7 @@ function showErr(msg) {
 
 
 /* Method to generate session for user */
-function generateSession(key, setKey) {
-  // Get submit btn
-  const btn = document.getElementById("btn-submit");
-  const txt = document.getElementById("btn-txt");
-
+function generateSession(key) {
   // Get input field
   const name = document.querySelector("input[name='Username']").value;
   document.querySelector("input[name='Username']").value = "";
@@ -37,10 +32,8 @@ function generateSession(key, setKey) {
     // Check if username is valie
     if (name.match(/^\w+$/g)) {
       // Generate session
-      const [newSession, sessionKey] = createSession(key, { username: name });
+      const [newSession, sessionKey] = createSession(key, { username: name, user:"offline", csr:"offline" });
       newSession.then(() => {
-        // Save session key
-        setKey(sessionKey);
         // Register user
         registerUser(name, `${key}/${sessionKey}`);
         // clear error
@@ -72,8 +65,6 @@ function CSR(props) {
   // Check if csr is logged in or not
   const logged = JSON.parse(sessionStorage.getItem(props.login));
 
-  // React hook, for storing user session key
-  const [sessionKey, setKey] = useState(null);
   // React hook, to store real-time all session details of login csr
   const [sessions, getSessions] = useState(null);
 
@@ -105,7 +96,7 @@ function CSR(props) {
                   <button
                     id="btn-submit"
                     className="my-2 btn btn-primary align-item-center"
-                    onClick={ () => generateSession(logged.csr, setKey) } >
+                    onClick={ () => generateSession(logged.csr) } >
                     <span id="btn-txt" className="me-1">
                       Generate
                     </span>
@@ -135,12 +126,17 @@ function CSR(props) {
               {sessions &&
                 Object.keys(sessions).map((key) => {
                   return (
-                    key !== "csr" && (
+                    (typeof(sessions[key]) !== 'string') && (
                       <SessionRow
                         key={key}
                         link={`${props.url}user/${key}`}
                         obj={sessions[key]}
-                        save={() => localStorage.setItem(props.login, logged.csr) }
+                        save={() => {
+                          // Save firebase path
+                          localStorage.setItem(props.login, logged.csr);
+                          // Save key value
+                          localStorage.setItem("key", props.login);
+                        } }
                       />
                     )
                   );

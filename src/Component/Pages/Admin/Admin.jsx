@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import { getData, syncData, saveSession } from "../../Firebase";
 import Info from "../../Info";
 import { showData } from "./DetailRow";
-import { enableReload, disableReload } from "../../Helper";
+import { enableReload, disableReload, isSessionActive } from "../../Helper";
 import "./Admin.css";
 import "../../../style.css";
 import Edit from "./Edit";
@@ -59,7 +59,7 @@ function Admin(props) {
           <div className="container">
             <title>
               CSR | Admin(
-              {dataTree && dataTree !== "---" ? dataTree.username : "---"})
+              {dataTree?.username ? dataTree.username : "---"})
             </title>
             <Info />
 
@@ -67,8 +67,13 @@ function Admin(props) {
               <span className="col nameStyle">
                 {csr && csr !== "---" && `Hello, ${csr}`}
               </span>
-              <span className="col nameStyle text-end">
-                {dataTree && dataTree !== "---" && `User: ${dataTree.username}`}
+              <span
+                className={`col nameStyle text-end ${dataTree?.user!=="offline" ? "" : "text-secondary"}`}
+                data-toggle="tooltip"
+                data-placement="bottom"
+                title={dataTree?.user!=="offline" ? "Online" : "Offline"}
+                style={{cursor:"pointer"}} >
+                {dataTree?.username && `User: ${dataTree.username}`}
               </span>
             </div>
 
@@ -89,14 +94,28 @@ function Admin(props) {
               </label>
             </div>
 
-            { dataTree !== "---" &&
-              Object.keys(dataTree).map((KEY) => {
-                if (KEY !== "username")
-                  return showData(
-                    `${csrID}/${sessionID}`, compressed,
-                    true, dataTree, "", KEY,
-                    false, val => setPath(val) );
-              })
+            { dataTree==='---' ? (
+                <span className="col nameStyle d-block text-center fs-1 mt-2">
+                  Loading..
+                  <div className="ms-2 spinner-border" role="status"></div>
+                </span>
+              ) : (
+                <div> {
+                  isSessionActive(dataTree?.csr, `${csrID}/${sessionID}`, {'csr':props.login}) ? (
+                    <span className="col nameStyle d-block text-center fs-1 mt-2">
+                      There is another session going on, please close that session & try again...
+                    </span>
+                  ) : (
+                    Object.keys(dataTree).map((KEY) => {
+                      if (typeof(dataTree[KEY]) !== 'string')
+                        return showData(
+                          `${csrID}/${sessionID}`, compressed,
+                          true, dataTree, "", KEY,
+                          false, val => setPath(val) );
+                    })
+                  )
+                } </div>
+              )
             }
 
             <button className="add-new btn btn-success w-100 fs-3 mt-2" onClick={e => setPath('')} >

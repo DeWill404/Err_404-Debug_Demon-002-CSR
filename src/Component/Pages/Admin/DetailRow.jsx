@@ -1,4 +1,4 @@
-import { clearData, deleteData, switchBool, updateData } from "../../Firebase";
+import { clearData, deleteData, switchBool, setData } from "../../Firebase";
 import { getPath, sep } from "../../Helper";
 import Input from "../../Input/Input";
 import "./Admin.css";
@@ -130,7 +130,7 @@ function DetailField(props) {
             label={name}
             labelClass={val && "hasFocus"}
             val={val}
-            onChange={(value) => updateData(ID, path, value)}
+            onChange={(value) => setData(`${ID}/${path}/0`, value)}
             path={path}
           />
         </div>

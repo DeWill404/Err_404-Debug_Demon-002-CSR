@@ -39,7 +39,7 @@ function login(mode, setlog, name, pass) {
   if (mode === 0 && name && pass)
     checkCredential("csr", name).then((snap) => {
       // Check if detail are valid
-      if (snap.val() && snap.val().pass === pass) {
+      if (snap.val() && snap.val() === pass) {
         // create a csr new session
         const [newSession, sessionKey] = createSession("", { csr: name });
         newSession

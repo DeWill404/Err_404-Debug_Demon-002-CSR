@@ -8,6 +8,7 @@ import Footer from "./Component/Footer";
 import Header from "./Component/Header";
 import Admin from "./Component/Pages/Admin/Admin";
 import { generateKey, setLabelHeight } from "./Component/Helper";
+import { useState } from "react";
 
 
 // Overidde window resize to set label height on every size change
@@ -15,7 +16,11 @@ window.onresize = () => setLabelHeight();
 
 
 function App(props) {
-  const loginKey = generateKey();
+  // Load key from local storage if redirected from a page or generate a new one
+  const [loginKey, _] = useState(localStorage.getItem("key") || generateKey());
+  localStorage.removeItem("key");
+
+  // Get base url
   const baseURL = window.location.href.substring(0, window.location.href.indexOf("/", 7)) + "/";
 
   return (
