@@ -3,7 +3,6 @@ import CSR from "./Component/Pages/CSR/CSR";
 import Home from "./Component/Pages/Home/Home";
 import NotFound from "./Component/Pages/NotFound/NotFound";
 import User from "./Component/Pages/User/User";
-import TEMP from "./Component/Pages/TEMP";
 import Footer from "./Component/Footer";
 import Header from "./Component/Header";
 import Admin from "./Component/Pages/Admin/Admin";
@@ -17,7 +16,7 @@ window.onresize = () => setLabelHeight();
 
 function App(props) {
   // Load key from local storage if redirected from a page or generate a new one
-  const [loginKey, _] = useState(localStorage.getItem("key") || generateKey());
+  const [loginKey, ] = useState(localStorage.getItem("key") || generateKey());
   localStorage.removeItem("key");
 
   // Get base url
@@ -32,7 +31,6 @@ function App(props) {
           <Route path="/csr" component={() => <CSR login={loginKey} url={baseURL} />} exact />
           <Route path="/admin/:id" component={(props) => <Admin login={loginKey} url={baseURL} />} exact />
           <Route path="/user/:id" component={(props) => <User login={loginKey} url={baseURL} />} exact />
-          <Route path="/temp" component={() => <TEMP login={loginKey} url={baseURL} />} exact />
           <Route path="*" component={() => <NotFound />} />
         </Switch>
       </Router>

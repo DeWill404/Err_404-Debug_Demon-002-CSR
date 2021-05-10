@@ -3,7 +3,7 @@ import "./CSR.css";
 
 function SessionRow(props) {
   // DATA
-  const isOnline = props.obj?.user === 'online';
+  const isOnline = props.obj?.user !== 'offline';
   const username = props.obj.username;
   const admin_link = props.link.replace("user", "admin");
   const user_link = props.link;
@@ -15,7 +15,8 @@ function SessionRow(props) {
           className={`session-online ${isOnline ? "online" : ""}`}
           data-toggle="tooltip"
           data-placement="bottom"
-          title={isOnline ? "Online" : "Offline"} ></div>
+          title={isOnline ? "Online" : "Offline"} >
+        </div>
       </div>
 
       <div className="col">

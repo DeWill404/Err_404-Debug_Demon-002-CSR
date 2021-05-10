@@ -69,7 +69,7 @@ function New(props) {
             title="Label" />
         </div>
         
-        {data !== null && (
+        { data !== null && (
           <div className="input-group input-group-sm mx-1">
             <input
               type="text"
@@ -81,19 +81,23 @@ function New(props) {
               data-toggle="tooltip"
               data-placement="bottom"
               title="Data" />
-          </div>
-        )}
+          </div> ) }
         
         <button
           className="err-notation d-none btn btn-danger btn-sm mx-1"
           style={{padding:"6px 4px 2px 4px"}}
+          onClick={e => {
+            // Focus on input
+            e.target.parentNode.firstChild.firstChild.focus();
+            // Hide btn
+            e.target.classList.add('d-none');
+          }}
           data-toggle="tooltip"
           data-placement="bottom"
           title="Enter label" >
           <i
             className="bi bi-exclamation-square"
-            style={{ pointerEvents: "none" }} >
-          </i>
+            style={{ pointerEvents: "none" }} ></i>
         </button>
         
         <button
@@ -108,22 +112,21 @@ function New(props) {
           title="Add Child" >
           <i
             className="bi bi-plus-square"
-            style={{ pointerEvents: "none" }} >
-          </i>
+            style={{ pointerEvents: "none" }} ></i>
         </button>
         
-        {!props.parent && <button
-          className="btns btn btn-outline-dark btn-sm mx-1"
-          style={{padding:"6px 4px 2px 4px"}}
-          onClick={e => listReset(index) }
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="Remove" >
-          <i
-            className="bi bi-x-square"
-            style={{ pointerEvents: "none" }} >
-          </i>
-        </button>}
+        { !props.parent &&
+          <button
+            className="btns btn btn-outline-dark btn-sm mx-1"
+            style={{padding:"6px 4px 2px 4px"}}
+            onClick={e => listReset(index) }
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Remove" >
+            <i
+              className="bi bi-x-square"
+              style={{ pointerEvents: "none" }} ></i>
+          </button> }
       </div>
 
       { componentList.map((details, index) => {
@@ -134,10 +137,8 @@ function New(props) {
             label={details[0] ? details[0] : ""}
             data={details[1] ? details[1] : ""}
             listSetter={ INDEX =>  addComponent( lst =>
-              lst.filter( (val,index) => index !== INDEX ) ) 
-            } />
-        )
-      })}
+              lst.filter( (val,index) => index !== INDEX ) ) } />
+        ) })}
     </div>
   );
 }

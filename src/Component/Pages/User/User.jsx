@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { syncData, saveSession, setData } from "../../Firebase";
+import { syncData, saveSession } from "../../Firebase";
 import { disableReload, enableReload, isSessionActive } from "../../Helper";
 import Info from "../../Info";
 import { showData } from "./DataRow";
@@ -34,10 +34,7 @@ function User(props) {
       // Sync session details
       syncData(`session/${logged.user}`, getDataTree);
       // Sync csr name
-      syncData(
-        `session/${logged.user.substring(0, logged.user.indexOf("/"))}/csr`,
-        getCSR
-      );
+      syncData(`session/${logged.user.substring(0, logged.user.indexOf("/"))}/csr`, getCSR);
     }
 
     // Check if key is not valid
@@ -72,41 +69,35 @@ function User(props) {
             </div>
 
             <div id="inputs"> {
-                // If session is not started
-                dataTree==='---' ? (
-                  <span className="col nameStyle d-block text-center fs-1 mt-2">
-                    Loading..
-                    <div className="ms-2 spinner-border" role="status"></div>
-                  </span>
-                ) :
-                // IF a session is already undergoing
-                isSessionActive(dataTree?.user, logged.user, {'user':props.login}) ? (
-                  <span className="col nameStyle d-block text-center fs-1 mt-2">
-                    There is another session going on, please close that session & try again...
-                  </span>
-                ) : (
-                  <div> {
-                    // If there is no data
-                    Object.keys(dataTree).length <= 3 ? (
-                      <span className="col nameStyle d-block text-center fs-1 mt-2">
-                        There is not data to show..
-                      </span>
-                    ) :
-                    // Show data
-                    ( Object.keys(dataTree).map(
-                        (key) =>
-                        (typeof(dataTree[key]) !== 'string') && showData(logged.user, dataTree, "", key)
-                    ))
-                  } </div>
-                )
+              // If session is not started
+              dataTree==='---' ? (
+                <span className="col nameStyle d-block text-center fs-1 mt-2">
+                  Loading..
+                  <div className="ms-2 spinner-border" role="status"></div>
+                </span> ) :
+              // IF a session is already undergoing
+              isSessionActive(dataTree?.user, logged.user, {'user':props.login}) ? (
+                <span className="col nameStyle d-block text-center fs-1 mt-2">
+                  There is another session going on, please close that session & try again...
+                </span> ) : (
+                <div> {
+                  // If there is no data
+                  Object.keys(dataTree).length <= 3 ? (
+                    <span className="col nameStyle d-block text-center fs-1 mt-2">
+                      There is not data to show..
+                    </span>
+                  ) :
+                  // Show data
+                  ( Object.keys(dataTree).map(
+                      (key) =>
+                      (typeof(dataTree[key]) !== 'string') && showData(logged.user, dataTree, "", key)
+                  ))
+                } </div>
+              )
             } </div>
           </div>
-        ) : (
-          history.replace("/_")
-        )
-      ) : (
-        history.replace("/")
-      )
+        ) : ( history.replace("/_") )
+      ) : ( history.replace("/") )
     } </main>
   );
 }

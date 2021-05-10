@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { checkCredential, createSession } from "../../Firebase";
 import Input from "../../Input/Input";
@@ -88,8 +88,7 @@ function Home(props) {
       history.push(
         logged.csr
           ? "csr"
-          : `user/${logged.user.substring(logged.user.indexOf("/") + 1)}`
-      );
+          : `user/${logged.user.substring(logged.user.indexOf("/") + 1)}` );
     }
   });
 
@@ -110,16 +109,13 @@ function Home(props) {
         <h1 className="text-center m-0">LOGIN</h1>
         <div
           className="row"
-          style={{
-            borderBottom: "1px #aaa solid",
-            borderTop: "1px #aaa solid",
-          }} >
-
+          style={{ borderBottom: "1px #aaa solid", borderTop: "1px #aaa solid" }} >
           <div
             className="mode-btn btn-active btn btn-outline-primary btn-lg col-6"
             onClick={() => switchMode(0, setMode)} >
             CSR
           </div>
+
           <div
             className="mode-btn btn btn-outline-primary btn-lg col-6"
             onClick={() => switchMode(1, setMode)} >
@@ -135,15 +131,14 @@ function Home(props) {
             onClick={() =>
               login( mode, setLog,
                 document.querySelector("input[name='Username']").value,
-                document.querySelector("input[name='Password']")?.value
-              )
-            }
-          >
+                document.querySelector("input[name='Password']")?.value )
+            } >
+
             <span className="me-1">login</span>
+            
             <span
               id="btn-spinner"
-              className="spinner-border spinner-border-sm visually-hidden"
-            ></span>
+              className="spinner-border spinner-border-sm visually-hidden" ></span>
           </button>
         </div>
       </div>

@@ -56,7 +56,7 @@ function syncData(path, setter) {
   return db.ref(path).on(
     "value",
     (snap) => setter(snap ? snap.val() : null),
-    (err) => console.log(err)
+    (err) => console.error(err)
   );
 }
 
@@ -94,6 +94,12 @@ function setData(path, value) {
 }
 
 
+// Funtion to update data
+function updateData(path, value) {
+  db.ref(`session/${path}`).set(value);
+}
+
+
 // Function remove data in from input field
 function deleteData(id, path) {
   db.ref(`session/${id}/${path}`).remove();
@@ -119,6 +125,7 @@ function saveSession(id, data) {
 export {
   getData,
   setData,
+  updateData,
   checkCredential,
   createSession,
   registerUser,

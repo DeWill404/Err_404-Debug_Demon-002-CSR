@@ -1,4 +1,4 @@
-import { clearData, deleteData, switchBool, setData } from "../../Firebase";
+import { clearData, deleteData, switchBool, updateData } from "../../Firebase";
 import { getPath, sep } from "../../Helper";
 import Input from "../../Input/Input";
 import "./Admin.css";
@@ -13,16 +13,14 @@ function showData(id, compressed, parent, tree, path, LABEL, bg, showEdit) {
   // Recursive loop to create each data row
   if (typeof tree[LABEL] !== "string") {
     if (Array.isArray(tree[LABEL]))
-      return (
-        <DetailField
-          key={getPath(path, LABEL)}
-          path={getPath(path, LABEL).replaceAll(sep, "/")}
-          val={tree[LABEL][0]}
-          name={compressed ? getPath(path, LABEL) : LABEL}
-          validate={tree[LABEL][1]}
-          visible={tree[LABEL][2]}
-          parent={parent} />
-      );
+      return ( <DetailField
+                key={getPath(path, LABEL)}
+                path={getPath(path, LABEL).replaceAll(sep, "/")}
+                val={tree[LABEL][0]}
+                name={compressed ? getPath(path, LABEL) : LABEL}
+                validate={tree[LABEL][1]}
+                visible={tree[LABEL][2]}
+                parent={parent} /> );
     else
       return compressed ? (
         Object.keys(tree[LABEL]).map((label) =>
@@ -30,25 +28,23 @@ function showData(id, compressed, parent, tree, path, LABEL, bg, showEdit) {
             false, tree[LABEL],
             getPath(path, LABEL), label,
             !bg, showEdit )
-        )
-      ) : (
-        <DetailsContainer
-          key={getPath(path, LABEL)}
-          path={path}
-          bg_color={bg}
-          label={LABEL}
-          parent={parent}
-          showEdit={showEdit}
-          func={() =>
-            Object.keys(tree[LABEL]).map((label) =>
-              showData( id, compressed,
-                false, tree[LABEL],
-                getPath(path, LABEL), label,
-                !bg, showEdit )
-            )
-          }
-        />
-      );
+        )) :
+        ( <DetailsContainer
+            key={getPath(path, LABEL)}
+            path={path}
+            bg_color={bg}
+            label={LABEL}
+            parent={parent}
+            showEdit={showEdit}
+            func={() =>
+              Object.keys(tree[LABEL]).map((label) =>
+                showData( id, compressed,
+                  false, tree[LABEL],
+                  getPath(path, LABEL), label,
+                  !bg, showEdit )
+              )
+            }
+          /> )
   }
 }
 
@@ -67,38 +63,40 @@ function DetailsContainer(props) {
       className={ `field-label ps-2 border  border-dark
         ${isParent ? "my-2" : ""}
         ${!bg_color ? "bg-label text-dark" : "bg-label-white text-light"}` }
-      style={{ borderRadius: "10px 0" }}
-    >
+      style={{ borderRadius: "10px 0" }} >
+
       <span className="d-block label-text text-capitalize my-1" >
         {LABEL}
+
         <span
-          class="badge bg-light text-dark mx-1 ms-2 edit-btn"
+          className="badge bg-light text-dark mx-1 ms-2 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Add data`}
           data-path={getPath(path, LABEL).replace(sep, "/")}
           onClick={e => showEdit(e.target.getAttribute('data-path')) } >
-          <i class="bi bi-plus-square" style={{pointerEvents:"none"}}></i>
+          <i className="bi bi-plus-square" style={{pointerEvents:"none"}}></i>
         </span>
 
         <span
-          class="badge bg-light text-dark mx-1 edit-btn"
+          className="badge bg-light text-dark mx-1 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Edit data`}
           data-path={getPath(path, LABEL, "/")} >
-          <i class="bi bi-pencil" style={{pointerEvents:"none"}}></i>
+          <i className="bi bi-pencil" style={{pointerEvents:"none"}}></i>
         </span>
 
         <span
-          class="badge bg-light text-dark mx-1 edit-btn"
+          className="badge bg-light text-dark mx-1 edit-btn"
           data-toggle="tooltip"
           data-placement="bottom"
           title={`Remove data`}
           onClick={() => clearData(ID, path + "/" + LABEL)}
           data-path={getPath(path, LABEL, "/")} >
-          <i class="bi bi-trash" style={{pointerEvents:"none"}}></i>
+          <i className="bi bi-trash" style={{pointerEvents:"none"}}></i>
         </span>
+
       </span>
       
       {func()}
@@ -119,9 +117,9 @@ function DetailField(props) {
   return (
     <div
       className={`field-wrapper rounded-2 m-2 p-1 px-2
-      ${isParent ? "mx-0" : "mt-1"}
-      ${validated ? "bg-validate" : "bg-invalidate"}`}
-    >
+        ${isParent ? "mx-0" : "mt-1"}
+        ${validated ? "bg-validate" : "bg-invalidate"}`} >
+
       <div className="row gy-2 align-items-center text-center">
         <div className="col-12 col-md-6 col-lg-9">
           <Input
@@ -130,10 +128,11 @@ function DetailField(props) {
             label={name}
             labelClass={val && "hasFocus"}
             val={val}
-            onChange={(value) => setData(`${ID}/${path}/0`, value)}
+            onChange={(value) => updateData(`${ID}/${path}/0`, value)}
             path={path}
           />
         </div>
+
         <div className="col-4 col-md-2 col-lg-1">
           <button
             className={`btn fs-3 btn-outline-danger`}
@@ -141,11 +140,11 @@ function DetailField(props) {
             data-toggle="tooltip"
             data-placement="bottom"
             title={`Delete Field\nThis action is irreversible`}
-            onClick={() =>  deleteData(ID, path)}
-          >
-            <i class="bi bi-trash-fill"></i>
+            onClick={() =>  deleteData(ID, path)} >
+            <i className="bi bi-trash-fill"></i>
           </button>
         </div>
+
         <div className="col-4 col-md-2 col-lg-1">
           <button
             className={`btn fs-3 btn-outline-primary`}
@@ -153,26 +152,25 @@ function DetailField(props) {
             data-toggle="tooltip"
             data-placement="bottom"
             title={visibility ? "Click to Hide" : "Click to Show"}
-            onClick={() => switchBool(ID, path, 2, visibility)}
-          >
-            {visibility ? (
-              <i className="bi bi-eye-fill"></i>
-            ) : (
-              <i className="bi bi-eye-slash-fill"></i>
-            )}
+            onClick={() => switchBool(ID, path, 2, visibility)} >
+            { visibility ? (
+              <i className="bi bi-eye-fill"></i> ) : (
+              <i className="bi bi-eye-slash-fill"></i> ) }
           </button>
         </div>
+
         <div className="col-4 col-md-2 col-lg-1">
           <span
             data-bs-toggle="tooltip"
             data-placement="bottom"
-            title={validated ? "Validated" : "Invalidated"}
-          >
+            title={validated ? "Validated" : "Invalidated"} >
+
             <button className={`btn fs-3 btn-dark`} disabled>
               {validated ? "✓" : "✗"}
             </button>
           </span>
         </div>
+        
       </div>
     </div>
   );

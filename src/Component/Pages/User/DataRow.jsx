@@ -1,4 +1,4 @@
-import { switchBool, setData } from "../../Firebase";
+import { switchBool, updateData } from "../../Firebase";
 import { getPath, sep } from "../../Helper";
 import Input from "../../Input/Input";
 
@@ -19,13 +19,10 @@ function showData(id, tree, path, LABEL) {
           val={tree[LABEL][0]}
           name={getPath(path, LABEL)}
           validate={tree[LABEL][1]}
-        />
-      )
-    );
+        /> ) );
   } else {
     return Object.keys(tree[LABEL]).map((label) =>
-      showData(id, tree[LABEL], getPath(path, LABEL), label)
-    );
+      showData(id, tree[LABEL], getPath(path, LABEL), label) );
   }
 }
 
@@ -38,10 +35,7 @@ function DataRow(props) {
 
   return (
     <div
-      className={`field-wrapper row align-items-center rounded-2 my-2 ${
-        validated ? "bg-validate" : "bg-invalidate"
-      }`}
-    >
+      className={`field-wrapper row align-items-center rounded-2 my-2 ${validated ? "bg-validate" : "bg-invalidate"}`} >
       <div className="col-2 col-md-1 text-center">
         <button
           className={`btn fs-3 ${validated ? "btn-dark" : "btn-outline-dark"}`}
@@ -49,11 +43,11 @@ function DataRow(props) {
           data-toggle="tooltip"
           data-placement="bottom"
           title={validated ? "Click to invalidate" : "Click to validate"}
-          onClick={() => switchBool(ID, path, 1, validated)}
-        >
+          onClick={() => switchBool(ID, path, 1, validated)} >
           {validated ? "✓" : "✗"}
         </button>
       </div>
+      
       <div className="col-10 col-md-11 pb-3">
         <Input
           type="text"
@@ -61,7 +55,7 @@ function DataRow(props) {
           name={name.replaceAll(sep, "_").replaceAll(" ", "_")}
           labelClass={val && "hasFocus"}
           val={val}
-          onChange={(value) => setData(`${ID}/${path}/0`, value)}
+          onChange={(value) => updateData(`${ID}/${path}/0`, value)}
           path={path} />
       </div>
     </div>

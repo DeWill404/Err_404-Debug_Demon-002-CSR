@@ -22,7 +22,6 @@ function showErr(msg) {
 function generateSession(key) {
   // Get input field
   const name = document.querySelector("input[name='Username']").value;
-  document.querySelector("input[name='Username']").value = "";
 
   // If any value is entered
   if (name) {
@@ -33,22 +32,25 @@ function generateSession(key) {
     if (name.match(/^\w+$/g)) {
       // Generate session
       const [newSession, sessionKey] = createSession(key, { username: name, user:"offline", csr:"offline" });
-      newSession.then(() => {
-        // Register user
-        registerUser(name, `${key}/${sessionKey}`);
-        // clear error
-        showErr(null);
-      }).catch((err) => {
-        console.error(err);
-        showErr("An error occured");
-      });
+      newSession
+        .then(() => {
+          // Register user
+          registerUser(name, `${key}/${sessionKey}`);
+          // clear error
+          showErr(null); })
+        .catch((err) => {
+          console.error(err);
+          showErr("An error occured"); });
     } else
       showErr(
-        "Username is invalid <br/> It should only contain <br/> Only Alphanumeric character <br/> No spaces anywhere <br/> No special character"
-      );
-  } else {
+        `Username is invalid <br/>
+        It should only contain <br/>
+        Only Alphanumeric character <br/>
+        No spaces anywhere <br/>
+        No special character` );
+  } else
     showErr("Enter the username");
-  }
+
 }
 
 function CSR(props) {
@@ -79,7 +81,7 @@ function CSR(props) {
 
   return (
     <main id="wrapper">
-      {logged && logged.csr ? (
+      { logged && logged.csr ? (
         <div>
           <title>CSR | Admin</title>
           <div className="container">
@@ -90,6 +92,7 @@ function CSR(props) {
 
             <div className="session-div p-2">
               <span className="session-title">New Session:</span>
+              
               <div className="row">
                 <div className="col-md-6">
                   <Input type="text" name="Username" label="Username" toLower={true} style={{ maxWidth: "300px" }} />
@@ -102,9 +105,10 @@ function CSR(props) {
                     </span>
                     <span
                       id="btn-spinner"
-                      className="spinner-border spinner-border-sm visually-hidden"></span>
+                      className="spinner-border spinner-border-sm visually-hidden" ></span>
                   </button>
                 </div>
+                
                 <div className="col-md-6">
                   <span
                     id="session-errMsg"
@@ -123,30 +127,27 @@ function CSR(props) {
             
             <div className="session-div p-2">
               <span className="session-title">All Sessions:</span>
-              {sessions &&
-                Object.keys(sessions).map((key) => {
-                  return (
-                    (typeof(sessions[key]) !== 'string') && (
-                      <SessionRow
-                        key={key}
-                        link={`${props.url}user/${key}`}
-                        obj={sessions[key]}
-                        save={() => {
-                          // Save firebase path
-                          localStorage.setItem(props.login, logged.csr);
-                          // Save key value
-                          localStorage.setItem("key", props.login);
-                        } }
-                      />
-                    )
-                  );
-                })}
+              { sessions &&
+                  Object.keys(sessions).map((key) => {
+                    return (
+                      (typeof(sessions[key]) !== 'string') && (
+                        <SessionRow
+                          key={key}
+                          link={`${props.url}user/${key}`}
+                          obj={sessions[key]}
+                          save={() => {
+                            // Save firebase path
+                            localStorage.setItem(props.login, logged.csr);
+                            // Save key value
+                            localStorage.setItem("key", props.login);
+                          } }
+                        />
+                      )
+                    ) })}
             </div>
           </div>
         </div>
-      ) : (
-        history.replace("/")
-      )}
+      ) : ( history.replace("/") )}
     </main>
   );
 }

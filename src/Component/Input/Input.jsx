@@ -17,11 +17,15 @@ function onFocus(event) {
 
 
 function Input(props) {
-  // React hook to set height of input tag on every render
-  useEffect(() => setLabelHeight(props.name));
-
+  
   // React hook to set & change value
   const [value, setValue] = useState(props.val);
+
+  // React hook to set height of input tag on every render
+  useEffect(() => {
+    setValue(props.val);
+    setLabelHeight(props.name);
+  });
 
   return (
     <div
@@ -39,7 +43,6 @@ function Input(props) {
           const val = props.toLower
                         ? e.target.value.trim().toLowerCase()
                         : e.target.value.trim();
-          setValue(val);
           // Call parent onChange function
           props.onChange && props.onChange(val);
         }}

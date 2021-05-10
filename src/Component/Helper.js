@@ -73,7 +73,6 @@ function setLabelHeight(name) {
 
 /* Check if session already is going, if not then start new one */
 function isSessionActive(status, path, value) {
-  console.log(status, path, value);
   if (status === "offline" || status === undefined)
     setData(`${path}`, value);
   else if (status !== Object.values(value)[0])
