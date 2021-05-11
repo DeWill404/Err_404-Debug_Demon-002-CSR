@@ -1,14 +1,19 @@
 import { setData } from "./Firebase";
 
-/* Function to generate key of random length */
-function generateKey() {
-  const length = Math.round(Math.random()*16)+10;
 
-  var key = "";
-  for(let j=0; j<length; j++)
-    key += String.fromCharCode(Math.round(Math.random()*93+33));
+/* function to clean data tree removing boolean values from it */
+function cleanData(data) {
+  // Make an empty object
+  const obj = {};
 
-  return key;
+  // Iterate over object
+  // If key is not username
+  for (const key in data)
+    if (!(typeof data[key] === "string"))
+      obj[key] = Array.isArray(data[key]) ? data[key][0] : cleanData(data[key]);
+
+  // return object
+  return obj;
 }
 
 
@@ -26,6 +31,7 @@ function disableReload(func) {
   };
 }
 
+
 /* Enable web reload */
 function enableReload(func) {
   // Execute arrow function
@@ -35,26 +41,29 @@ function enableReload(func) {
   window.onunload = null;
 }
 
-/* function to clean data tree removing boolean values from it */
-function cleanData(data) {
-  // Make an empty object
-  const obj = {};
 
-  // Iterate over object
-  // If key is not username
-  for (const key in data)
-    if (!(typeof data[key] === "string"))
-      obj[key] = Array.isArray(data[key]) ? data[key][0] : cleanData(data[key]);
+/* Function to generate key of random length */
+function generateKey() {
+  const length = Math.round(Math.random()*16)+10;
 
-  // return object
-  return obj;
+  var key = "";
+  for(let j=0; j<length; j++)
+    key += String.fromCharCode(Math.round(Math.random()*93+33));
+
+  return key;
 }
 
-/* Function & seperator for path generation */
-var sep = " ⇒ ";
-const getPath = (path, label, SEP=sep) => {
-  return `${path ? path + SEP + label : label}`;
-};
+
+/* Check if session already is going, if not then start new one */
+function isSessionActive(status, path, value) {
+  if (status === "offline" || status === undefined)
+    setData(`${path}`, value);
+  else if (status !== Object.values(value)[0])
+    return true;
+
+  return false;
+}
+
 
 /* Function to set height of inputs */
 function setLabelHeight(name) {
@@ -71,15 +80,13 @@ function setLabelHeight(name) {
   for (let i = 0; i < elements.length; i++) changeHeight(elements[i]);
 }
 
-/* Check if session already is going, if not then start new one */
-function isSessionActive(status, path, value) {
-  if (status === "offline" || status === undefined)
-    setData(`${path}`, value);
-  else if (status !== Object.values(value)[0])
-    return true;
 
-  return false;
-}
+/* Function & seperator for path generation */
+var sep = " ⇒ ";
+const getPath = (path, label, SEP=sep) => {
+  return `${path ? path + SEP + label : label}`
+};
+
 
 export {
   generateKey,

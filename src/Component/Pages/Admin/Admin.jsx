@@ -4,6 +4,7 @@ import { getData, syncData, saveSession } from "../../Firebase";
 import { enableReload, disableReload, isSessionActive } from "../../Helper";
 import Info from "../../Info";
 import Edit from "./Edit";
+import Chat from "../../Chat/Chat";
 import { showData } from "./DetailRow";
 import "./Admin.css";
 import "../../../style.css";
@@ -37,6 +38,8 @@ function Admin(props) {
   const [compressed, setCompressed] = useState( JSON.parse(sessionStorage.getItem("compresed")) );
   // React hook, to set visibility of Edit Component
   const [path, setPath] = useState( null );
+  // React hook, to set visibility of chat
+  const [showChat, setChat] = useState(false);
 
   // Get csr name
   getData(`session/${csrID}/csr`, (val) => getCSR(val));
@@ -122,6 +125,15 @@ function Admin(props) {
 
           { path !== null && 
             <Edit hide={() => setPath(null)} path={path} id={`${csrID}/${sessionID}/`} /> }
+
+          {showChat && <Chat path={`session/${csrID}/${sessionID}/msg`} login={props.login}/>}
+          <button
+            className="btn btn-lg btn-primary rounded-circle position-fixed end-0 bottom-0 translate-middle me-2 mb-2"
+            onClick={e => setChat(!showChat)} >
+            { showChat ?
+                <i class="bi bi-x"></i> :
+                <i class="bi bi-chat-right-dots-fill"></i> }
+          </button>
         </div>
       ) : ( history.replace("/_") )
     ) : ( history.replace("/") )

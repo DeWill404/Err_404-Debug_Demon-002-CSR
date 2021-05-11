@@ -4,6 +4,7 @@ import { syncData, saveSession } from "../../Firebase";
 import { disableReload, enableReload, isSessionActive } from "../../Helper";
 import Info from "../../Info";
 import { showData } from "./DataRow";
+import Chat from "../../Chat/Chat";
 import "./User.css";
 import "../../../style.css";
 
@@ -27,6 +28,8 @@ function User(props) {
   const [csr, getCSR] = useState("---");
   // React hook, to store data
   const [dataTree, getDataTree] = useState("---");
+  // React hook, to set visibility of chat
+  const [showChat, setChat] = useState(false);
 
   // React hook, to run after first render
   useEffect(() => {
@@ -95,6 +98,15 @@ function User(props) {
                 } </div>
               )
             } </div>
+
+            {showChat && <Chat path={`session/${logged.user}/msg`} login={props.login}/>}
+            <button
+              className="btn btn-lg btn-primary rounded-circle position-fixed end-0 bottom-0 translate-middle me-2 mb-2"
+              onClick={e => setChat(!showChat)} >
+              { showChat ?
+                <i class="bi bi-x"></i> :
+                <i class="bi bi-chat-right-dots-fill"></i> }
+            </button>
           </div>
         ) : ( history.replace("/_") )
       ) : ( history.replace("/") )

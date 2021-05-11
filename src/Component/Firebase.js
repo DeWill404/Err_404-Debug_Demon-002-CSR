@@ -23,18 +23,15 @@ export default firebase;
 const db = firebase.database();
 
 
-// Function of get data at given path
-function getData(path, func) {
-  db.ref(path)
-    .get()
-    .then((snap) => func(snap.val()))
-    .catch((err) => console.error(err));
-}
-
-
 // Function to return promise to check if details are valid
 function checkCredential(type, userName) {
   return db.ref(`${type}/${userName}`).get();
+}
+
+
+// Function cleas data in from input field, save as empt object
+function clearData(id, path) {
+  db.ref(`session/${id}/${path}`).set(["", false, false]);
 }
 
 
@@ -45,9 +42,47 @@ function createSession(path, inital) {
 }
 
 
+// Function remove data in from input field
+function deleteData(id, path) {
+  db.ref(`session/${id}/${path}`).remove();
+}
+
+
+// Function of get data at given path
+function getData(path, func) {
+  db.ref(path)
+    .get()
+    .then((snap) => func(snap.val()))
+    .catch((err) => console.error(err));
+}
+
+
 // Function to register user to session
 function registerUser(uname, key) {
   db.ref(`user/${uname}`).set(key);
+}
+
+
+// Funtion to remove user
+function removeUser(uname) {
+  db.ref(`user/${uname}`).remove();
+}
+
+
+// Function save user Data
+function saveSession(id, data) {
+  // Remove data
+  db.ref(`session/${id}`).remove();
+  // Remove user
+  removeUser(data.username);
+  // push clean data to firebase
+  db.ref(`DATA/${data.username}`).set( cleanData(data) );
+}
+
+
+// Function to update data
+function setData(path, value) {
+  db.ref(`session/${path}`).update(value);
 }
 
 
@@ -61,9 +96,9 @@ function syncData(path, setter) {
 }
 
 
-// Funtion to remove user
-function removeUser(uname) {
-  db.ref(`user/${uname}`).remove();
+// Funtion to switch validation of input field
+function switchBool(id, label, index, value) {
+  db.ref(`session/${id}/${label}/${index}`).set(!value);
 }
 
 
@@ -82,58 +117,35 @@ function unregisterUser(id) {
 }
 
 
-// Funtion to switch validation of input field
-function switchBool(id, label, index, value) {
-  db.ref(`session/${id}/${label}/${index}`).set(!value);
-}
-
-
-// Function to update data
-function setData(path, value) {
-  db.ref(`session/${path}`).update(value);
-}
-
-
 // Funtion to update data
 function updateData(path, value) {
   db.ref(`session/${path}`).set(value);
 }
 
-
-// Function remove data in from input field
-function deleteData(id, path) {
-  db.ref(`session/${id}/${path}`).remove();
+////////////////
+function sendMsg(path, lst, value) {
+  if (lst) {
+    db.ref(path).set([...lst, value]);
+  } else {
+    db.ref(path).set([value]);
+  }
 }
 
-
-// Function cleas data in from input field, save as empt object
-function clearData(id, path) {
-  db.ref(`session/${id}/${path}`).set(["", false, false]);
-}
-
-
-// Function save user Data
-function saveSession(id, data) {
-  // Remove data
-  db.ref(`session/${id}`).remove();
-  // Remove user
-  removeUser(data.username);
-  // push clean data to firebase
-  db.ref(`DATA/${data.username}`).set( cleanData(data) );
-}
 
 export {
+  checkCredential,
   getData,
   setData,
   updateData,
-  checkCredential,
+  syncData,
+  deleteData,
+  switchBool,
+  clearData,
   createSession,
   registerUser,
-  syncData,
-  removeUser,
   unregisterUser,
-  switchBool,
-  deleteData,
-  clearData,
+  removeUser,
   saveSession,
+  ///////////////////
+  sendMsg,
 };
