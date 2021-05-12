@@ -9,6 +9,13 @@ import "./User.css";
 import "../../../style.css";
 
 
+/* Function to excute delete data part only if it is valid */
+function saveData(path, valid, value) {
+  if (path && valid)
+    saveSession(path, value);
+}
+
+
 function User(props) {
   // Disable reload
   disableReload(() => {
@@ -44,7 +51,7 @@ function User(props) {
     if (dataTree?.username===null && dataTree!=="---")
       history.push("/_");
 
-    return () => enableReload(() => logged && saveSession(logged.user, dataTree) );
+    return () => enableReload( () => saveData(logged?.user, dataTree?.user===props.login, dataTree) );
   }, []);
 
   return (
@@ -93,7 +100,7 @@ function User(props) {
                   // Show data
                   ( Object.keys(dataTree).map(
                       (key) =>
-                      (typeof(dataTree[key]) !== 'string') && showData(logged.user, dataTree, "", key)
+                      (typeof(dataTree[key])!=='string' && key!=='msg') && showData(logged.user, dataTree, "", key)
                   ))
                 } </div>
               )

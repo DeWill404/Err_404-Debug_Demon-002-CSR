@@ -109,7 +109,7 @@ function Admin(props) {
                   </span>
                 ) : (
                   Object.keys(dataTree).map((KEY) => {
-                    return (typeof(dataTree[KEY]) !== 'string') && showData(
+                    return (typeof(dataTree[KEY])!=='string' && KEY!=='msg') && showData(
                         `${csrID}/${sessionID}`, compressed,
                         true, dataTree, "", KEY,
                         false, val => setPath(val) )
@@ -131,7 +131,7 @@ function Admin(props) {
             className="btn btn-lg btn-primary rounded-circle position-fixed end-0 bottom-0 translate-middle me-2 mb-2"
             onClick={e => setChat(!showChat)} >
             { showChat ?
-                <i class="bi bi-x"></i> :
+                <span><b>X</b></span> :
                 <i class="bi bi-chat-right-dots-fill"></i> }
           </button>
         </div>
