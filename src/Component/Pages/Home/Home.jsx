@@ -124,8 +124,24 @@ function Home(props) {
         </div>
 
         <div className="form-section p-3 pt-1">
-          <Input type="text" name="Username" label="Username" toLower={true} />
-          {mode === 0 && ( <Input type="password" name="Password" label="Password" /> )}
+          <Input
+            type="text"
+            name="Username"
+            label="Username"
+            toLower={true}
+            onKey={() => { !mode ?
+                document.querySelector("input[type='password']").focus() :
+                login( mode, setLog,
+                  document.querySelector("input[name='Username']").value,
+                  document.querySelector("input[name='Password']")?.value ) }} />
+          { mode === 0 && ( <Input
+            type="password"
+            name="Password"
+            label="Password"
+            onKey={() => login( mode, setLog,
+                  document.querySelector("input[name='Username']").value,
+                  document.querySelector("input[name='Password']")?.value ) } /> )}
+          
           <button
             className="mt-4 btn btn-primary align-item-center"
             onClick={() =>

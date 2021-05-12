@@ -44,8 +44,9 @@ function Input(props) {
                         ? e.target.value.trim().toLowerCase()
                         : e.target.value.trim();
           // Call parent onChange function
-          props.onChange && props.onChange(val);
+          props.onChange?.(val);
         }}
+        onKeyDown={ e => e.key==='Enter' && props.onKey?.(e.target) }
         autoComplete="off"
         autoSave="false" />
 

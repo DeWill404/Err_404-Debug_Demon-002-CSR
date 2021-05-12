@@ -63,6 +63,11 @@ function New(props) {
             placeholder="Label"
             value={label}
             onChange={(e) => { const value = e.target.value; setLabel(value); }}
+            onKeyDown={ e => { if (e.key === 'Enter') {
+              const inputList = document.querySelectorAll('input');
+              const index = Array.prototype.indexOf.call(inputList, e.target);
+              index === inputList.length-1 ? inputList[1].focus() : inputList[index+1].focus();
+            }} }
             readOnly={props.readOnly}
             data-toggle="tooltip"
             data-placement="bottom"
@@ -78,6 +83,11 @@ function New(props) {
               placeholder="Data"
               value={data}
               onChange={e => { const value = e.target.value; setData(value); }}
+              onKeyDown={ e => { if (e.key === 'Enter') {
+                const inputList = document.querySelectorAll('input');
+                const index = Array.prototype.indexOf.call(inputList, e.target);
+                index === inputList.length-1 ? inputList[1].focus() : inputList[index+1].focus();
+              }} }
               data-toggle="tooltip"
               data-placement="bottom"
               title="Data" />

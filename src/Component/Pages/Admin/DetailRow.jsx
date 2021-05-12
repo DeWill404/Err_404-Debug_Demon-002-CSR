@@ -129,6 +129,11 @@ function DetailField(props) {
             labelClass={val && "hasFocus"}
             val={val}
             onChange={(value) => updateData(`${ID}/${path}/0`, value)}
+            onKey={(ele) => {
+              const inputList = document.querySelectorAll('input');
+              const index = Array.prototype.indexOf.call(inputList, ele);
+              index == inputList.length-1 ? inputList[1].focus() : inputList[index+1].focus();
+            }}
             path={path}
           />
         </div>

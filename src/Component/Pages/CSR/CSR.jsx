@@ -95,7 +95,14 @@ function CSR(props) {
               
               <div className="row">
                 <div className="col-md-6">
-                  <Input type="text" name="Username" label="Username" toLower={true} style={{ maxWidth: "300px" }} />
+                  <Input
+                    type="text"
+                    name="Username"
+                    label="Username"
+                    toLower={true}
+                    style={{ maxWidth: "300px" }}
+                    onKey={ () => document.getElementById('btn-submit').click() } />
+
                   <button
                     id="btn-submit"
                     className="my-2 btn btn-primary align-item-center"

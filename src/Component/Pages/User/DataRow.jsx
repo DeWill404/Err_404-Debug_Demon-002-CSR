@@ -56,6 +56,11 @@ function DataRow(props) {
           labelClass={val && "hasFocus"}
           val={val}
           onChange={(value) => updateData(`${ID}/${path}/0`, value)}
+          onKey={(ele) => {
+            const inputList = document.querySelectorAll('input');
+            const index = Array.prototype.indexOf.call(inputList, ele);
+            inputList.length-1 ? inputList[0].focus() : inputList[index+1].focus();
+          }}
           path={path} />
       </div>
     </div>
